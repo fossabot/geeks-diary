@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ButtonComponent } from './button/button.component';
+import { IconComponent } from './icon/icon.component';
 
 
 @NgModule({
@@ -9,11 +10,13 @@ import { ButtonComponent } from './button/button.component';
         CommonModule
     ],
     declarations: [
-        ButtonComponent
+        ButtonComponent,
+        IconComponent
     ],
     providers: [],
     exports: [
-        ButtonComponent
+        ButtonComponent,
+        IconComponent
     ]
 })
 export class UIModule {
