@@ -1,14 +1,13 @@
 import { app, BrowserWindow } from 'electron';
 import * as url from 'url';
 
-import { loadConfig } from '../config';
+import { environment } from '../config/environment';
 
 
 let win;
-const config = loadConfig();
 
 const createWindow = () => {
-    const filename = config.enableAot ? 'app-aot.html' : 'app.html';
+    const filename = environment.config.enableAot ? 'app-aot.html' : 'app.html';
 
     win = new BrowserWindow({
         width: 768,

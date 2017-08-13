@@ -2,12 +2,10 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 
 import { RootModule } from './root/root.module';
-import { loadConfig } from '../config';
+import { environment } from '../config/environment';
 
 
-const config = loadConfig();
-
-if (config.isProduction) {
+if (environment.config.isProduction) {
     enableProdMode();
 }
 
