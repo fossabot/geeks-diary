@@ -1,6 +1,9 @@
 @import "../fonts/open-sans/open-sans.css";
 @import "../fonts/zilla-slab/zilla-slab.css";
 
+@import "../icons/line-awesome/css/line-awesome-font-awesome.min.css";
+@import "../icons/line-awesome/css/line-awesome.min.css";
+
 @import "./color.css";
 @import "./unit.css";
 
