@@ -1,0 +1,42 @@
+{
+    "name": "angular-electron-boilerplate",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app/app.js",
+    "scripts": {
+        "start": "./node_modules/.bin/electron --inspect=5858 .",
+        "dev-main": "webpack --config tools/webpack.main.js --watch",
+        "dev-renderer": "webpack --config tools/webpack.renderer.js --watch",
+        "dev-rednerer-aot": "webpack --config tools/webpack.renderer-aot.js --watch"
+    },
+    "author": "Seokju Na <seokju.me@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@angular/compiler-cli": "^4.3.4",
+        "@ngtools/webpack": "^1.6.0",
+        "@types/node": "^8.0.20",
+        "angular2-template-loader": "^0.6.2",
+        "awesome-typescript-loader": "^3.2.2",
+        "codelyzer": "^3.1.2",
+        "css-loader": "^0.28.4",
+        "electron": "^1.7.5",
+        "exports-loader": "^0.6.4",
+        "html-loader": "^0.5.1",
+        "less": "^2.7.2",
+        "less-loader": "^4.0.5",
+        "postcss-loader": "^2.0.6",
+        "tslint": "^5.6.0",
+        "typescript": "^2.4.2",
+        "webpack": "^3.5.4"
+    },
+    "dependencies": {
+        "@angular/common": "^4.3.4",
+        "@angular/compiler": "^4.3.4",
+        "@angular/core": "^4.3.4",
+        "@angular/platform-browser": "^4.3.4",
+        "@angular/platform-browser-dynamic": "^4.3.4",
+        "core-js": "^2.5.0",
+        "rxjs": "^5.4.3",
+        "zone.js": "^0.8.16"
+    }
+}
