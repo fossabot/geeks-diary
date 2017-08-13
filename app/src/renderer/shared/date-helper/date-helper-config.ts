@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable()
-export class DateHelperConfigService {
+export class DateHelperConfig {
     unify = {
         year: new Date().getFullYear(),
         month: new Date().getMonth(),

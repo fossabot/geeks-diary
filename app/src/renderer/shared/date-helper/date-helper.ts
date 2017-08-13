@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DateHelperConfigService } from './date-helper-config.service';
+import { DateHelperConfig } from './date-helper-config';
 
 
 export enum DateManipulateType {
@@ -26,7 +26,7 @@ export class DateHelper {
         date: 86400000
     };
 
-    constructor(private datePipe: DatePipe, private config: DateHelperConfigService) {
+    constructor(private datePipe: DatePipe, private config: DateHelperConfig) {
     }
 
     isValidDateStr(dateStr: string): boolean {

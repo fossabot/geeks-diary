@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
-import { DateHelperModule } from './date-helper/date-helper.module';
+import { DateHelperConfig } from './date-helper/date-helper-config';
+import { DateHelper } from './date-helper/date-helper';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        DateHelperModule
+        CommonModule
     ],
     declarations: [],
-    providers: [],
-    exports: [
-        DateHelperModule
-    ]
+    providers: [
+        DatePipe,
+        DateHelperConfig,
+        DateHelper
+    ],
+    exports: []
 })
 export class SharedModule {
 
