@@ -1,14 +1,13 @@
 import { DevConfig } from './config.dev';
 import { ProdConfig } from './config.prod';
 import { Config } from './config';
+import { isRendererProcess } from '../common/utils/is-renderer-process';
 
 
 let app;
 
-declare var process: any;
-
 const requireModule = () => {
-    if (process.type === 'renderer') {
+    if (isRendererProcess()) {
         app = require('electron').remote.app;
     } else {
         app = require('electron').app;
