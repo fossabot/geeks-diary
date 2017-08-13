@@ -1,7 +1,7 @@
 {
-    "name": "angular-electron-boilerplate",
+    "name": "geeks-diary",
     "version": "1.0.0",
-    "description": "",
+    "description": "TIL writing tool for geeks.",
     "main": "app/app.js",
     "scripts": {
         "start": "./node_modules/.bin/electron --inspect=5858 .",
@@ -10,7 +10,9 @@
         "dev-rednerer-aot": "webpack --config tools/webpack.renderer-aot.js --watch"
     },
     "author": "Seokju Na <seokju.me@gmail.com>",
+    "repository": "https://github.com/seokju-na/geeks-diary.git",
     "license": "MIT",
+    "private": true,
     "devDependencies": {
         "@angular/compiler-cli": "^4.3.4",
         "@ngtools/webpack": "^1.6.0",
