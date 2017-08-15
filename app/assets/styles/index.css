@@ -1,8 +1,8 @@
-@import "../fonts/open-sans/open-sans.css";
-@import "../fonts/zilla-slab/zilla-slab.css";
+@import "../vendors/open-sans/index.css";
+@import "../vendors/zilla-slab/index.css";
 
-@import "../icons/line-awesome/css/line-awesome-font-awesome.min.css";
-@import "../icons/line-awesome/css/line-awesome.min.css";
+@import "../vendors/line-awesome/css/line-awesome-font-awesome.min.css";
+@import "../vendors/line-awesome/css/line-awesome.min.css";
 
 @import "./color.css";
 @import "./unit.css";
