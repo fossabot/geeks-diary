@@ -15,7 +15,9 @@ import { DateHelper } from './date-helper/date-helper';
         DateHelperConfig,
         DateHelper
     ],
-    exports: []
+    exports: [
+        CommonModule
+    ]
 })
 export class SharedModule {
 
