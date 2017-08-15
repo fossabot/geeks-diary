@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 
 @NgModule({
@@ -11,12 +12,14 @@ import { IconComponent } from './icon/icon.component';
     ],
     declarations: [
         ButtonComponent,
-        IconComponent
+        IconComponent,
+        ToolbarComponent
     ],
     providers: [],
     exports: [
         ButtonComponent,
-        IconComponent
+        IconComponent,
+        ToolbarComponent
     ]
 })
 export class UIModule {
