@@ -1,0 +1,56 @@
+.ActivityView {
+    display: inline-flex;
+    height: 100%;
+
+    & > nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-small-size) 0 var(--space-regular-size) 0;
+        width: var(--container-big-size);
+        height: 100%;
+        border-right: 1px solid var(--color-gray-3);
+    }
+
+    /*
+    &__viewNav {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 2px 0 2px 0;
+
+        & > li {
+            display: inline-flex;
+            list-style: none;
+            margin: 0;
+            width: var(--box-big-size);
+            height: var(--box-big-size);
+
+            &.active {
+                background-color:
+            }
+
+            & > a {
+                flex: 1;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                cursor: pointer;
+                border-radius: 4px;
+
+                &:hover {
+
+                }
+            }
+        }
+    }
+    */
+
+    &__sidebar {
+        width: 250px;
+        border-right: 1px solid var(--color-gray-3);
+    }
+}

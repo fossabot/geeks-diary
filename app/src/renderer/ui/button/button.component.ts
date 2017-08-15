@@ -14,6 +14,7 @@ export class ButtonComponent implements OnInit, OnChanges {
     @Input() buttonTitle = '';
     @Input() loading = false;
     @Input() disabled = false;
+    @Input() active = false;
     @Output() buttonClick = new EventEmitter();
     cn = new ClassName('Button');
 
@@ -22,7 +23,13 @@ export class ButtonComponent implements OnInit, OnChanges {
         this.cn.setModifier('size', this.buttonSize);
 
         if (this.loading) {
-            this.cn.setModifier('is', 'loading');
+            this.cn.setModifier('loading', 'enable');
+        }
+
+        if (this.active) {
+            this.cn.setModifier('active', 'enable');
+        } else {
+            this.cn.removeModifier('active');
         }
     }
 
@@ -32,7 +39,7 @@ export class ButtonComponent implements OnInit, OnChanges {
     ngOnInit() {
     }
 
-    ngOnChanges() {
+    ngOnChanges(changesObj) {
         this.parseClassName();
     }
 

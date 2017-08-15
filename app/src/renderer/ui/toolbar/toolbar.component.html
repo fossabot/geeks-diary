@@ -5,6 +5,7 @@
         <app-button (buttonClick)="clickToolbarItem(item)"
                     [buttonTitle]="item.title"
                     [buttonType]="'flat'"
+                    [active]="isItemActive(item)"
                     [buttonSize]="toolbarSize">
             <app-icon [iconName]="item.iconName"
                       [iconColor]="'gray'"

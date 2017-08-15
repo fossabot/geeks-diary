@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
+import { CoreModule } from '../core/core.module';
+
 import { RootComponent } from './root.component';
 
 
 @NgModule({
     imports: [
         BrowserModule,
-        CommonModule
+        CommonModule,
+        CoreModule
     ],
     declarations: [
         RootComponent
