@@ -29,6 +29,15 @@ class ModifierFactory {
             this.modifiers.push({ flag, value });
         }
     }
+
+    removeModifier(flag: string) {
+        if (this.hasModifier(flag)) {
+            const index = this.modifiers.findIndex(m =>
+                m.flag === flag);
+
+            this.modifiers.splice(index, 1);
+        }
+    }
 }
 
 class ClassNameFactory extends ModifierFactory {
