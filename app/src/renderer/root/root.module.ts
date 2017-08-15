@@ -3,7 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
 import { CoreModule } from '../core/core.module';
+import { UIModule } from '../ui/ui.module';
 
+import { ActivityViewComponent } from './activity-view/activity-view.component';
 import { RootComponent } from './root.component';
 
 
@@ -11,9 +13,11 @@ import { RootComponent } from './root.component';
     imports: [
         BrowserModule,
         CommonModule,
-        CoreModule
+        CoreModule,
+        UIModule
     ],
     declarations: [
+        ActivityViewComponent,
         RootComponent
     ],
     providers: [],

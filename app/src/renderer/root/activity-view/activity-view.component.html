@@ -1,0 +1,22 @@
+<div [ngClass]="cn.get()" class="ActivityView">
+    <nav>
+        <app-toolbar
+                (toolBarClick)="clickItem($event)"
+                [toolbarTitle]="'Activity view navigator'"
+                [toolbarDirection]="'vertical'"
+                [toolbarItems]="items"
+                [activeItemId]="activeItemId"
+                [toolbarSize]="'big'"></app-toolbar>
+
+        <app-toolbar
+                [toolbarTitle]="'Global actions'"
+                [toolbarDirection]="'vertical'"
+                [toolbarItems]="globalActions"
+                [toolbarSize]="'big'"></app-toolbar>
+    </nav>
+
+    <section [ngSwitch]="activeItemId" class="ActivityView__sidebar">
+        <div *ngSwitchCase="'ActivityView.noteBrowser'">123</div>
+        <div *ngSwitchCase="'ActivityView.scm'">456</div>
+    </section>
+</div>

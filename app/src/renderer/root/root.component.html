@@ -1,6 +1,11 @@
-<div class="Root">
-    <main class="Root__main">
-        <app-activity-view></app-activity-view>
-        <app-workspace></app-workspace>
-    </main>
+<div [ngClass]="cn.get()" class="Root">
+    <div class="Root__container">
+        <aside class="Root__aside">
+            <app-activity-view (sidebarToggle)="toggleSidebar($event)"></app-activity-view>
+        </aside>
+
+        <main class="Root__workspace">
+            Workspace
+        </main>
+    </div>
 </div>

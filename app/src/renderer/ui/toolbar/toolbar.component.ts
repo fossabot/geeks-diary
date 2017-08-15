@@ -4,7 +4,7 @@ import { ClassName } from '../../../common/utils/class-name';
 
 
 export interface ToolbarItem {
-    id?: string;
+    id: string;
     title: string;
     iconName: string;
     metadata?: any;
@@ -21,7 +21,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     @Input() toolbarSize = 'regular';
     @Input() toolbarDirection = 'horizontal';
     @Input() toolbarItems: ToolbarItem[] = [];
-    @Input() activeItem: ToolbarItem | null = null;
+    @Input() activeItemId: string | number | null = null;
     @Output() toolBarClick: EventEmitter<ToolbarItem> = new EventEmitter();
     cn = new ClassName('Toolbar');
 
@@ -38,11 +38,11 @@ export class ToolbarComponent implements OnInit, OnChanges {
     }
 
     isItemActive(item: ToolbarItem): boolean {
-        if (this.activeItem === null) {
+        if (this.activeItemId === null) {
             return false;
         }
 
-        return this.activeItem.id === item.id;
+        return this.activeItemId === item.id;
     }
 
     clickToolbarItem(item: ToolbarItem) {
