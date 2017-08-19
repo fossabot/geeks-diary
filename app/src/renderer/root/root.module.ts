@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '../core/core.module';
 import { UIModule } from '../ui/ui.module';
 
+import { NoteModule } from '../note/note.module';
+
 import { ActivityViewComponent } from './activity-view/activity-view.component';
 import { RootComponent } from './root.component';
 
@@ -14,7 +16,8 @@ import { RootComponent } from './root.component';
         BrowserModule,
         CommonModule,
         CoreModule,
-        UIModule
+        UIModule,
+        NoteModule
     ],
     declarations: [
         ActivityViewComponent,

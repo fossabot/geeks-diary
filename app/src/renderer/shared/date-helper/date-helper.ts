@@ -56,7 +56,7 @@ export class DateHelper {
     }
 
     getLastDateOfMonth(year: number, month: number): Date {
-        return new Date(year, month, 0);
+        return new Date(year, month + 1, 0);
     }
 
     format(date: Date, pattern: string): string | null {

@@ -16,7 +16,7 @@
     </nav>
 
     <section [ngSwitch]="activeItemId" class="ActivityView__sidebar">
-        <div *ngSwitchCase="'ActivityView.noteBrowser'">123</div>
-        <div *ngSwitchCase="'ActivityView.scm'">456</div>
+        <app-note-browser *ngSwitchCase="'ActivityView.noteBrowser'"></app-note-browser>
+        <div *ngSwitchCase="'ActivityView.scm'"></div>
     </section>
 </div>

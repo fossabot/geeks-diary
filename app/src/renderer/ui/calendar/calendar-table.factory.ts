@@ -49,13 +49,14 @@ export class WeekRow {
 
     constructor(private dateHelper: DateHelper,
                 indexDate: Date,
-                 beforeBlankCellsCount: number = 0,
+                beforeBlankCellsCount: number = 0,
                 afterBlankCellsCount: number = 0) {
         this.addBlankDateCells(beforeBlankCellsCount);
 
         for (let i = 0; i < 7 - (beforeBlankCellsCount + afterBlankCellsCount); i++) {
             this.cells.push(new DateCell(this.dateHelper, indexDate));
             this.dateHelper.add(indexDate, 1, 'date');
+            // console.log(indexDate);
         }
 
         this.addBlankDateCells(afterBlankCellsCount);
@@ -88,7 +89,8 @@ export class CalendarTable {
     }
 
     constructor(private dateHelper: DateHelper,
-                private config: CalendarConfig) {}
+                private config: CalendarConfig) {
+    }
 
     setYear(year: number): CalendarTable {
         this.year = year;
@@ -101,6 +103,8 @@ export class CalendarTable {
     }
 
     render() {
+        this.rows = []; // Remove all rows before render.
+
         const firstDate = this.dateHelper.getFirstDateOfMonth(this.year, this.month);
         const dayOfFirstDate = firstDate.getDay();
         const maxDays = this.dateHelper
@@ -124,9 +128,13 @@ export class CalendarTable {
             this.rows.push(weekRow);
         }
 
-        weekRow = new WeekRow(this.dateHelper, indexDate, 0, 7 - lastRowCellsCount);
-        weekRow.setAsLastWeek();
-        this.rows.push(weekRow);
+        if (lastRowCellsCount > 0) {
+            weekRow = new WeekRow(this.dateHelper, indexDate, 0, 7 - lastRowCellsCount);
+            this.rows.push(weekRow);
+        }
+
+        const lastRow = this.rows[this.rows.length - 1];
+        lastRow.setAsLastWeek();
 
         this.makeMetadata();
     }

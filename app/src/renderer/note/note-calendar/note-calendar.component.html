@@ -1,3 +1,32 @@
-<div>
+<div class="NoteCalendar">
+    <nav>
+        <app-button (buttonClick)="navigateMonth(-1)" [buttonType]="'flat'">
+            <app-icon [iconColor]="'gray'" [iconName]="'angle-left'"></app-icon>
+        </app-button>
 
+        <h1 class="NoteCalendar__title">{{calendarTable.displayName}}</h1>
+
+        <app-button (buttonClick)="navigateMonth(1)" [buttonType]="'flat'">
+            <app-icon [iconColor]="'gray'" [iconName]="'angle-right'"></app-icon>
+        </app-button>
+    </nav>
+
+    <section class="NoteCalendar__content">
+        <div class="NoteCalendar__label">
+            <span class="red">S</span>
+            <span>M</span>
+            <span>T</span>
+            <span>W</span>
+            <span>T</span>
+            <span>F</span>
+            <span class="blue">S</span>
+        </div>
+
+        <div *ngFor="let row of calendarTable.rows" class="NoteCalendar__row">
+            <app-note-calendar-date-cell
+                    *ngFor="let cell of row.cells"
+                    [dateCell]="cell"
+                    class="NoteCalendar__cell"></app-note-calendar-date-cell>
+        </div>
+    </section>
 </div>
