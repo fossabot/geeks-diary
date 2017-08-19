@@ -69,7 +69,7 @@ const config = {
         }),
         new AotPlugin({
             tsConfigPath: paths.app('tsconfig-aot.json'),
-            entryModule: paths.src('renderer/app/app.module#AppModule')
+            entryModule: paths.src('renderer/root/root.module#RootModule')
         })
         // UglifyJS has issue for es6(...) fuck
     ],
