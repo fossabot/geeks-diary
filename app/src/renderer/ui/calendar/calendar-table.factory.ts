@@ -56,7 +56,6 @@ export class WeekRow {
         for (let i = 0; i < 7 - (beforeBlankCellsCount + afterBlankCellsCount); i++) {
             this.cells.push(new DateCell(this.dateHelper, indexDate));
             this.dateHelper.add(indexDate, 1, 'date');
-            // console.log(indexDate);
         }
 
         this.addBlankDateCells(afterBlankCellsCount);
@@ -133,6 +132,7 @@ export class CalendarTable {
             this.rows.push(weekRow);
         }
 
+        // Make last row as last week
         const lastRow = this.rows[this.rows.length - 1];
         lastRow.setAsLastWeek();
 
