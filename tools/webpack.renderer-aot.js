@@ -71,6 +71,7 @@ const config = {
             tsConfigPath: paths.app('tsconfig-aot.json'),
             entryModule: paths.src('renderer/root/root.module#RootModule')
         })
+        // TODO : issue#2
         // UglifyJS has issue for es6(...) fuck
     ],
     stats: {
