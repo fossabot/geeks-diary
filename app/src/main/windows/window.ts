@@ -7,7 +7,7 @@ import { environment } from '../../config/environment';
 
 
 export class Window extends EventEmitter {
-    private browserWindow: Electron.BrowserWindow;
+    browserWindow: Electron.BrowserWindow;
     options: Electron.BrowserWindowConstructorOptions;
     templateUrl: string;
 
