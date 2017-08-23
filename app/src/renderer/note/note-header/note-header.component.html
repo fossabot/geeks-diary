@@ -1,0 +1,12 @@
+<header class="NoteHeader">
+    <div aria-label="Header titlebar" class="NoteHeader__title">
+        <h1>Some note title</h1>
+        <span></span>
+        <time datetime="Wed Aug 23 2017 20:57:17 GMT+0900 (KST)">2017, Aug 23</time>
+    </div>
+
+    <app-toolbar [toolbarTitle]="'Note actions'"
+                 [toolbarItems]="noteActions"></app-toolbar>
+
+    <app-button [buttonType]="'primary'">Publish</app-button>
+</header>
