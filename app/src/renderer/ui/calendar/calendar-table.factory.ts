@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { DateHelper } from '../../shared/date-helper/date-helper';
+import { DateHelper, DateUnit } from '../../shared/date-helper';
 import { CalendarConfig } from './calendar-config';
 
 
@@ -28,10 +28,7 @@ export class DateCell {
         const today = new Date(Date.now());
         const target = this.dateHelper.copy(source);
 
-        this.dateHelper.unify(today, 'date');
-        this.dateHelper.unify(target, 'date');
-
-        return this.dateHelper.diff(today, target, 'date');
+        return this.dateHelper.diff(today, target, DateUnit.DATE);
     }
 }
 
@@ -55,7 +52,7 @@ export class WeekRow {
 
         for (let i = 0; i < 7 - (beforeBlankCellsCount + afterBlankCellsCount); i++) {
             this.cells.push(new DateCell(this.dateHelper, indexDate));
-            this.dateHelper.add(indexDate, 1, 'date');
+            this.dateHelper.add(indexDate, 1, DateUnit.DATE);
         }
 
         this.addBlankDateCells(afterBlankCellsCount);

@@ -9,9 +9,9 @@ import { ClassName } from '../../../common/utils/class-name';
     styleUrls: ['./button.component.less']
 })
 export class ButtonComponent implements OnInit, OnChanges {
-    @Input() buttonType = 'normal';
-    @Input() buttonSize = 'regular';
-    @Input() buttonTitle = '';
+    @Input() type = 'normal';
+    @Input() size = 'regular';
+    @Input() title = '';
     @Input() loading = false;
     @Input() disabled = false;
     @Input() active = false;
@@ -19,8 +19,8 @@ export class ButtonComponent implements OnInit, OnChanges {
     cn = new ClassName('Button');
 
     private parseClassName() {
-        this.cn.setModifier('type', this.buttonType);
-        this.cn.setModifier('size', this.buttonSize);
+        this.cn.setModifier('type', this.type);
+        this.cn.setModifier('size', this.size);
 
         if (this.loading) {
             this.cn.setModifier('loading', 'enable');

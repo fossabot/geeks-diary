@@ -9,17 +9,17 @@ import { ClassName } from '../../../common/utils/class-name';
     styleUrls: ['./icon.component.less']
 })
 export class IconComponent implements OnInit, OnChanges {
-    @Input() iconName: string;
-    @Input() iconSize = 'regular';
-    @Input() iconColor = 'black';
+    @Input() name: string;
+    @Input() size = 'regular';
+    @Input() color = 'black';
     iconClassName = '';
     cn = new ClassName('Icon');
 
     private parseClassName() {
-        this.iconClassName = `la la-${this.iconName}`;
+        this.iconClassName = `la la-${this.name}`;
 
-        this.cn.setModifier('size', this.iconSize);
-        this.cn.setModifier('color', this.iconColor);
+        this.cn.setModifier('size', this.size);
+        this.cn.setModifier('color', this.color);
     }
 
     constructor() {

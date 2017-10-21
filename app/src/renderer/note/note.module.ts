@@ -8,6 +8,9 @@ import { NoteCalendarDateCellComponent } from './note-calendar-date-cell/note-ca
 import { NoteBrowserComponent } from './note-browser/note-browser.component';
 import { NoteItemComponent } from './note-item/note-item.component';
 import { NoteHeaderComponent } from './note-header/note-header.component';
+import { NoteStoreService } from './note-store.service';
+import { NoteFinder } from './note-finder';
+import { NoteEditorComponent } from './note-editor/note-editor.component';
 
 
 @NgModule({
@@ -20,12 +23,17 @@ import { NoteHeaderComponent } from './note-header/note-header.component';
         NoteCalendarDateCellComponent,
         NoteBrowserComponent,
         NoteItemComponent,
-        NoteHeaderComponent
+        NoteHeaderComponent,
+        NoteEditorComponent
     ],
-    providers: [],
+    providers: [
+        NoteFinder,
+        NoteStoreService
+    ],
     exports: [
         NoteBrowserComponent,
-        NoteHeaderComponent
+        NoteHeaderComponent,
+        NoteEditorComponent
     ]
 })
 export class NoteModule {

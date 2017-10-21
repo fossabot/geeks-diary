@@ -17,17 +17,17 @@ export interface ToolbarItem {
     styleUrls: ['./toolbar.component.less']
 })
 export class ToolbarComponent implements OnInit, OnChanges {
-    @Input() toolbarTitle = '';
-    @Input() toolbarSize = 'regular';
-    @Input() toolbarDirection = 'horizontal';
-    @Input() toolbarItems: ToolbarItem[] = [];
+    @Input() title = '';
+    @Input() size = 'regular';
+    @Input() direction = 'horizontal';
+    @Input() items: ToolbarItem[] = [];
     @Input() activeItemId: string | number | null = null;
     @Output() toolBarClick: EventEmitter<ToolbarItem> = new EventEmitter();
     cn = new ClassName('Toolbar');
 
     private parseClassName() {
-        this.cn.setModifier('size', this.toolbarSize);
-        this.cn.setModifier('direction', this.toolbarDirection);
+        this.cn.setModifier('size', this.size);
+        this.cn.setModifier('direction', this.direction);
     }
 
     ngOnInit() {

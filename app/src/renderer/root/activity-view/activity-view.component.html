@@ -2,21 +2,21 @@
     <nav>
         <app-toolbar
                 (toolBarClick)="clickItem($event)"
-                [toolbarTitle]="'Activity view navigator'"
-                [toolbarDirection]="'vertical'"
-                [toolbarItems]="items"
+                title="Activity view navigator"
+                direction="vertical"
+                [items]="items"
                 [activeItemId]="activeItemId"
-                [toolbarSize]="'big'"></app-toolbar>
+                size="big"></app-toolbar>
 
         <app-toolbar
-                [toolbarTitle]="'Global actions'"
-                [toolbarDirection]="'vertical'"
-                [toolbarItems]="globalActions"
-                [toolbarSize]="'big'"></app-toolbar>
+                title="Global actions"
+                direction="vertical"
+                [items]="globalActions"
+                size="big"></app-toolbar>
     </nav>
 
-    <section [ngSwitch]="activeItemId" class="ActivityView__sidebar">
-        <app-note-browser *ngSwitchCase="'ActivityView.noteBrowser'"></app-note-browser>
-        <div *ngSwitchCase="'ActivityView.scm'"></div>
+    <section class="ActivityView__sidebar">
+        <app-note-browser [class.show]="isActiveItemId('ActivityView.noteBrowser')" class="ActivityView__sidebarContent"></app-note-browser>
+        <div [class.show]="isActiveItemId('ActivityView.scm')" class="ActivityView__sidebarContent"></div>
     </section>
 </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ClassName } from '../../common/utils/class-name';
+import { NoteStoreService } from '../note/note-store.service';
 
 
 @Component({
@@ -8,20 +9,27 @@ import { ClassName } from '../../common/utils/class-name';
     templateUrl: './root.component.html',
     styleUrls: ['./root.component.less']
 })
-export class RootComponent implements OnInit {
+export class RootComponent implements OnInit, OnDestroy {
     sidebarOpened = false;
     cn = new ClassName('Root');
 
-    private parseClassName() {
-        this.cn.setModifier('sidebar', this.sidebarOpened ? 'opened' : 'closed');
+    constructor(private noteStore: NoteStoreService) {
     }
 
     ngOnInit() {
         this.parseClassName();
     }
 
+    ngOnDestroy() {
+        this.noteStore.destroy();
+    }
+
     toggleSidebar(isOpened: boolean) {
         this.sidebarOpened = isOpened;
         this.parseClassName();
+    }
+
+    private parseClassName() {
+        this.cn.setModifier('sidebar', this.sidebarOpened ? 'opened' : 'closed');
     }
 }

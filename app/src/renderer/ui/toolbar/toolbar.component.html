@@ -1,15 +1,15 @@
-<ul [attr.aria-label]="toolbarTitle" role="toolbar" [ngClass]="cn.get()" class="Toolbar">
-    <li *ngFor="let item of toolbarItems"
+<ul [attr.aria-label]="title" role="toolbar" [ngClass]="cn.get()" class="Toolbar">
+    <li *ngFor="let item of items"
         role="presentation"
         class="Toolbar__item">
         <app-button (buttonClick)="clickToolbarItem(item)"
-                    [buttonTitle]="item.title"
-                    [buttonType]="'flat'"
+                    [title]="item.title"
+                    type="flat"
                     [active]="isItemActive(item)"
-                    [buttonSize]="toolbarSize">
-            <app-icon [iconName]="item.iconName"
-                      [iconColor]="'gray'"
-                      [iconSize]="toolbarSize"></app-icon>
+                    [size]="size">
+            <app-icon [name]="item.iconName"
+                      color="gray"
+                      [size]="size"></app-icon>
         </app-button>
     </li>
 </ul>

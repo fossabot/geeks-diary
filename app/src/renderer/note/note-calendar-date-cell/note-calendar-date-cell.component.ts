@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 import { DateCell } from '../../ui/calendar/calendar-table.factory';
 import { ClassName } from '../../../common/utils/class-name';
@@ -11,6 +11,7 @@ import { ClassName } from '../../../common/utils/class-name';
 })
 export class NoteCalendarDateCellComponent implements OnChanges {
     @Input() dateCell: DateCell;
+    @Output() select = new EventEmitter<DateCell>();
     cn = new ClassName('NoteCalendarDateCell');
 
     private parseClassName() {
@@ -21,5 +22,13 @@ export class NoteCalendarDateCellComponent implements OnChanges {
 
     ngOnChanges() {
         this.parseClassName();
+    }
+
+    selectDateCell() {
+        if (this.dateCell.isBlank) {
+            return;
+        }
+
+        this.select.emit(this.dateCell);
     }
 }

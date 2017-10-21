@@ -1,12 +1,14 @@
 <header class="NoteHeader">
     <div aria-label="Header titlebar" class="NoteHeader__title">
-        <h1>Some note title</h1>
+        <h1>{{(noteItemSelection | async)?.title}}</h1>
         <span></span>
-        <time datetime="Wed Aug 23 2017 20:57:17 GMT+0900 (KST)">2017, Aug 23</time>
+        <time datetime="Wed Aug 23 2017 20:57:17 GMT+0900 (KST)">
+            {{(noteItemSelection | async)?.createdAt | date:'MMM d, y'}}
+        </time>
     </div>
 
-    <app-toolbar [toolbarTitle]="'Note actions'"
-                 [toolbarItems]="noteActions"></app-toolbar>
+    <app-toolbar title="Note actions"
+                 [items]="noteActions"></app-toolbar>
 
-    <app-button [buttonType]="'primary'">Publish</app-button>
+    <app-button type="primary">Publish</app-button>
 </header>

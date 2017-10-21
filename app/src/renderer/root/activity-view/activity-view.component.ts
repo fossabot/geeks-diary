@@ -19,23 +19,23 @@ export class ActivityViewComponent implements OnInit {
         { id: 'GlobalAction.setting', title: 'Setting', iconName: 'cog' }
     ];
     sidebarOpened = false;
-    activeItemId: string | null;
+    activeItemId: string = null;
     cn = new ClassName('ActivityView');
-
-    private parseClassName() {
-        this.cn.setModifier('sidebar', this.sidebarOpened ? 'opened' : 'closed');
-    }
 
     ngOnInit() {
         this.parseClassName();
     }
 
-    isItemActive(item: ToolbarItem) {
+    isItemActive(item: ToolbarItem): boolean {
         if (this.items === null) {
             return false;
         }
 
         return this.activeItemId === item.id;
+    }
+
+    isActiveItemId(itemId: string): boolean {
+        return this.activeItemId === itemId;
     }
 
     clickItem(item: ToolbarItem) {
@@ -49,5 +49,9 @@ export class ActivityViewComponent implements OnInit {
 
         this.sidebarToggle.emit(this.sidebarOpened);
         this.parseClassName();
+    }
+
+    private parseClassName() {
+        this.cn.setModifier('sidebar', this.sidebarOpened ? 'opened' : 'closed');
     }
 }

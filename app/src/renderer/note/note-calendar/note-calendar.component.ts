@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 
-import { DateHelper } from '../../shared/date-helper/date-helper';
+import { DateHelper, DateUnit } from '../../shared/date-helper';
 import { CalendarTable } from '../../ui/calendar/calendar-table.factory';
 
 
@@ -10,9 +10,11 @@ import { CalendarTable } from '../../ui/calendar/calendar-table.factory';
     styleUrls: ['./note-calendar.component.less']
 })
 export class NoteCalendarComponent implements OnInit {
+    @Output() select = new EventEmitter<Date>();
     calendarTable: CalendarTable;
 
-    constructor(private dateHelper: DateHelper, @Inject(CalendarTable) private calendarTableFactory: () => CalendarTable) {
+    constructor(private dateHelper: DateHelper,
+                @Inject(CalendarTable) private calendarTableFactory: () => CalendarTable) {
         this.calendarTable = calendarTableFactory();
     }
 
@@ -32,9 +34,9 @@ export class NoteCalendarComponent implements OnInit {
         date.setMonth(this.calendarTable.month);
 
         if (direction > 0) {
-            this.dateHelper.add(date, direction, 'month');
+            this.dateHelper.add(date, direction, DateUnit.MONTH);
         } else if (direction < 0) {
-            this.dateHelper.subtract(date, direction * -1, 'month');
+            this.dateHelper.subtract(date, direction * -1, DateUnit.MONTH);
         }
 
         this.calendarTable

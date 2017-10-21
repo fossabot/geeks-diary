@@ -3,7 +3,6 @@ import * as EventEmitter from 'events';
 
 import { Window } from './windows/window';
 import { AppWindow } from './windows/app-window';
-import { applicationMenu } from './menus/application-menu';
 
 
 class AppDelegate extends EventEmitter {
@@ -50,7 +49,7 @@ class AppDelegate extends EventEmitter {
     }
 
     run() {
-        Menu.setApplicationMenu(applicationMenu);
+        // Menu.setApplicationMenu(applicationMenu);
 
         this.handleEvents();
         this.openAppWindow();

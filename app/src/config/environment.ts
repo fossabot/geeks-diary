@@ -6,27 +6,23 @@ import { isRendererProcess } from '../common/utils/is-renderer-process';
 
 let app;
 
-const requireModule = () => {
-    if (isRendererProcess()) {
-        app = require('electron').remote.app;
-    } else {
-        app = require('electron').app;
-    }
-};
-
-
 class Environment {
     config: Config;
+
+    constructor() {
+        if (isRendererProcess()) {
+            app = require('electron').remote.app;
+        } else {
+            app = require('electron').app;
+        }
+    }
 
     setConfig(config: Config) {
         this.config = config;
     }
 
+    // noinspection JSMethodCanBeStatic
     getPath(name: string): string {
-        if (!app) {
-            requireModule();
-        }
-
         return app.getPath(name);
     }
 }

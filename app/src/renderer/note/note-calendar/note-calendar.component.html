@@ -1,13 +1,13 @@
 <div class="NoteCalendar">
     <nav>
-        <app-button (buttonClick)="navigateMonth(-1)" [buttonType]="'flat'">
-            <app-icon [iconColor]="'gray'" [iconName]="'angle-left'"></app-icon>
+        <app-button (buttonClick)="navigateMonth(-1)" type="flat">
+            <app-icon color="gray" name="angle-left"></app-icon>
         </app-button>
 
         <h1 class="NoteCalendar__title">{{calendarTable.displayName}}</h1>
 
-        <app-button (buttonClick)="navigateMonth(1)" [buttonType]="'flat'">
-            <app-icon [iconColor]="'gray'" [iconName]="'angle-right'"></app-icon>
+        <app-button (buttonClick)="navigateMonth(1)" type="flat">
+            <app-icon color="gray" name="angle-right"></app-icon>
         </app-button>
     </nav>
 

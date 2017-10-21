@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-
-import { DateHelperConfig } from './date-helper/date-helper-config';
-import { DateHelper } from './date-helper/date-helper';
+import { DateHelper } from './date-helper';
 
 
 @NgModule({
@@ -12,7 +10,6 @@ import { DateHelper } from './date-helper/date-helper';
     declarations: [],
     providers: [
         DatePipe,
-        DateHelperConfig,
         DateHelper
     ],
     exports: [

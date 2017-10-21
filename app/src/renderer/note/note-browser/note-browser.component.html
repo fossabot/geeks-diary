@@ -2,8 +2,8 @@
     <header class="NoteBrowser__titlebar">
         <h1>Note Browser</h1>
         <app-toolbar
-                [toolbarTitle]="'Note browser actions'"
-                [toolbarItems]="actions"></app-toolbar>
+                title="Note browser actions"
+                [items]="actions"></app-toolbar>
     </header>
 
     <div class="NoteBrowser__calendar">
@@ -11,8 +11,10 @@
     </div>
 
     <ul class="NoteBrowser__list">
-        <li class="NoteBrowser__item">
-            <app-note-item></app-note-item>
+        <li *ngFor="let noteItem of noteItems | async" class="NoteBrowser__item">
+            <app-note-item (select)="selectNoteItem($event)"
+                           [selected]="isNoteItemSelected(noteItemSelection | async, noteItem)"
+                           [note]="noteItem"></app-note-item>
         </li>
     </ul>
 </div>

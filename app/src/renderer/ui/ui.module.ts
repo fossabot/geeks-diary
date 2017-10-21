@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DateHelper } from '../shared/date-helper/date-helper';
+import { DateHelper } from '../shared/date-helper';
 
 import { ButtonComponent } from './button/button.component';
 import { CalendarConfig } from './calendar/calendar-config';
