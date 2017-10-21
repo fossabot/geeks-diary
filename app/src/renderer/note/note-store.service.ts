@@ -47,6 +47,7 @@ export class NoteStoreService {
 
     constructor(private dateHelper: DateHelper) {
         this.pullNoteItems();
+        this.registerReadNoteBodySource(this.noteItemSelectionStream);
     }
 
     pullNoteItems() {
@@ -79,6 +80,7 @@ export class NoteStoreService {
 
     registerReadNoteBodySource(source: Observable<NoteItem>): Subscription {
         const stream = source
+            .filter(noteItem => !!noteItem)
             .switchMap(noteItem => this.readNoteBody(noteItem));
 
         const subscription = stream.subscribe(this.noteBodyStream);
