@@ -2,7 +2,7 @@
     <div aria-label="Header titlebar" class="NoteHeader__title">
         <h1>{{(noteItemSelection | async)?.title}}</h1>
         <span></span>
-        <time datetime="Wed Aug 23 2017 20:57:17 GMT+0900 (KST)">
+        <time [attr.datetime]="(noteItemSelection | async)?.createdAt | date:'fullDate'">
             {{(noteItemSelection | async)?.createdAt | date:'MMM d, y'}}
         </time>
     </div>
