@@ -9,7 +9,6 @@ import { NoteBrowserComponent } from './note-browser/note-browser.component';
 import { NoteItemComponent } from './note-item/note-item.component';
 import { NoteHeaderComponent } from './note-header/note-header.component';
 import { NoteStoreService } from './note-store.service';
-import { NoteFinder } from './note-finder';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
 
 
@@ -27,7 +26,6 @@ import { NoteEditorComponent } from './note-editor/note-editor.component';
         NoteEditorComponent
     ],
     providers: [
-        NoteFinder,
         NoteStoreService
     ],
     exports: [
