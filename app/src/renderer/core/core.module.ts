@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
+import { ModalContainerComponent } from './modal/modal-container.component';
+import { Modal } from './modal/modal';
 
 
 @NgModule({
@@ -8,10 +10,13 @@ import { SharedModule } from '../shared/shared.module';
         SharedModule
     ],
     declarations: [
+        ModalContainerComponent
     ],
     providers: [
+        Modal
     ],
     exports: [
+        ModalContainerComponent
     ]
 })
 export class CoreModule {

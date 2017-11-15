@@ -48,7 +48,11 @@ class ClassNameFactory extends ModifierFactory {
         this.name = name;
     }
 
-    get (): string {
+    get className() {
+        return this.get();
+    }
+
+    get(): string {
         const classNames = [this.name];
 
         this.modifiers.forEach((modifier) => {

@@ -6,6 +6,7 @@ const paths = require('./paths');
 
 const config = {
     entry: {
+        polyfills: paths.src('renderer/polyfills.ts'),
         'vendor-aot': paths.src('renderer/vendor-aot.ts'),
         'boot-app-aot': paths.src('renderer/boot-app.ts')
     },
@@ -15,7 +16,7 @@ const config = {
         chunkFilename: '[id].chunk.js'
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js', '.json'],
         modules: [paths.nodeModules()]
     },
     resolveLoader: {

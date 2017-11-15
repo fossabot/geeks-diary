@@ -1,14 +1,14 @@
 <div class="NoteCalendar">
     <nav>
-        <app-button (buttonClick)="navigateMonth(-1)" type="flat">
-            <app-icon color="gray" name="angle-left"></app-icon>
-        </app-button>
+        <ui-button (buttonClick)="navigateMonth(-1)" type="flat">
+            <ui-icon color="gray" name="angle-left"></ui-icon>
+        </ui-button>
 
         <h1 class="NoteCalendar__title">{{calendarTable.displayName}}</h1>
 
-        <app-button (buttonClick)="navigateMonth(1)" type="flat">
-            <app-icon color="gray" name="angle-right"></app-icon>
-        </app-button>
+        <ui-button (buttonClick)="navigateMonth(1)" type="flat">
+            <ui-icon color="gray" name="angle-right"></ui-icon>
+        </ui-button>
     </nav>
 
     <section class="NoteCalendar__content">

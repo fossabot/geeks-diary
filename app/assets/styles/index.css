@@ -6,6 +6,7 @@
 
 @import "./color.css";
 @import "./unit.css";
+@import "./note-editor-snippet.css";
 
 
 *, *:before, *:after {
@@ -26,4 +27,12 @@ body {
     font-weight: 400;
     line-height: var(--lineHeight-regular-size);
     color: var(--color-gray-9);
+}
+
+input, blockquote {
+    font-family: "Open Sans", sans-serif;
+}
+
+::selection {
+    background: var(--color-blue-1);
 }

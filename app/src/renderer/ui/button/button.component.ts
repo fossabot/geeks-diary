@@ -4,7 +4,7 @@ import { ClassName } from '../../../common/utils/class-name';
 
 
 @Component({
-    selector: 'app-button',
+    selector: 'ui-button',
     templateUrl: './button.component.html',
     styleUrls: ['./button.component.less']
 })
@@ -15,6 +15,8 @@ export class ButtonComponent implements OnInit, OnChanges {
     @Input() loading = false;
     @Input() disabled = false;
     @Input() active = false;
+    @Input() buttonType = 'button';
+    @Input() buttonTabIndex = 0;
     @Output() buttonClick = new EventEmitter();
     cn = new ClassName('Button');
 

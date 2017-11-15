@@ -10,6 +10,11 @@ import { NoteItemComponent } from './note-item/note-item.component';
 import { NoteHeaderComponent } from './note-header/note-header.component';
 import { NoteStoreService } from './note-store.service';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
+import { NotePrettierService } from './note-preview/note-prettier.service';
+import { NotePreviewComponent } from './note-preview/note-preview.component';
+import { NoteWorkspaceComponent } from './note-workspace/note-workspace.component';
+import { NoteEditorService } from './note-editor/note-editor.service';
+import { NoteCodeEditorSnippetCreateModalComponent } from './note-editor/code-snippet-create-modal.component';
 
 
 @NgModule({
@@ -23,15 +28,22 @@ import { NoteEditorComponent } from './note-editor/note-editor.component';
         NoteBrowserComponent,
         NoteItemComponent,
         NoteHeaderComponent,
-        NoteEditorComponent
+        NoteEditorComponent,
+        NoteWorkspaceComponent,
+        NotePreviewComponent,
+        NoteCodeEditorSnippetCreateModalComponent
+    ],
+    entryComponents: [
+        NoteCodeEditorSnippetCreateModalComponent
     ],
     providers: [
-        NoteStoreService
+        NoteStoreService,
+        NotePrettierService,
+        NoteEditorService
     ],
     exports: [
         NoteBrowserComponent,
-        NoteHeaderComponent,
-        NoteEditorComponent
+        NoteWorkspaceComponent
     ]
 })
 export class NoteModule {

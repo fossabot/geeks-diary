@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+rm -rf app/assets/vendors/
 mkdir -p app/assets/vendors/
 
 # Copy line awesome icon
@@ -21,3 +22,10 @@ mkdir -p app/assets/vendors/zilla-slab/files/
 
 cp -R node_modules/typeface-zilla-slab/files/ app/assets/vendors/zilla-slab/files/
 cp node_modules/typeface-zilla-slab/index.css app/assets/vendors/zilla-slab/index.css
+
+
+# Copy monaco editor
+mkdir -p app/assets/vendors/monaco-editor/
+
+cp -R node_modules/monaco-editor/min/vs/ app/assets/vendors/monaco-editor/vs/
+cp node_modules/monaco-editor/monaco.d.ts app/assets/vendors/monaco-editor/monaco.d.ts

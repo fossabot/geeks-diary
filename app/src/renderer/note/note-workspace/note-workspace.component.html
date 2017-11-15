@@ -1,0 +1,14 @@
+<div class="NoteWorkspace">
+    <header class="NoteWorkspace__header">
+        <app-note-header></app-note-header>
+    </header>
+
+    <section class="NoteWorkspace__content">
+        <div class="NoteWorkspace__side">
+            <app-note-editor></app-note-editor>
+        </div>
+        <div class="NoteWorkspace__side">
+            <app-note-preview [content]="initContent"></app-note-preview>
+        </div>
+    </section>
+</div>

@@ -1,18 +1,18 @@
 <div [ngClass]="cn.get()" class="ActivityView">
     <nav>
-        <app-toolbar
+        <ui-toolbar
                 (toolBarClick)="clickItem($event)"
                 title="Activity view navigator"
                 direction="vertical"
                 [items]="items"
                 [activeItemId]="activeItemId"
-                size="big"></app-toolbar>
+                size="big"></ui-toolbar>
 
-        <app-toolbar
+        <ui-toolbar
                 title="Global actions"
                 direction="vertical"
                 [items]="globalActions"
-                size="big"></app-toolbar>
+                size="big"></ui-toolbar>
     </nav>
 
     <section class="ActivityView__sidebar">

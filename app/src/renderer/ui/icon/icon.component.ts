@@ -4,7 +4,7 @@ import { ClassName } from '../../../common/utils/class-name';
 
 
 @Component({
-    selector: 'app-icon',
+    selector: 'ui-icon',
     templateUrl: './icon.component.html',
     styleUrls: ['./icon.component.less']
 })

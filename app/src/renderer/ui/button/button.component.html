@@ -2,6 +2,8 @@
         [ngClass]="cn.get()"
         [title]="title"
         [disabled]="disabled"
+        [attr.type]="buttonType"
+        [attr.tabindex]="buttonTabIndex"
         class="Button">
     <span [hidden]="loading" class="Button__content">
         <ng-content></ng-content>

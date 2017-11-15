@@ -15,7 +15,7 @@ const config = {
         chunkFilename: '[id].chunk.js'
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js', '.json'],
         modules: [paths.nodeModules()]
     },
     resolveLoader: {

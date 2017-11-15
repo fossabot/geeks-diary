@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { NoteStoreService } from '../note-store.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { NoteEditorService } from './note-editor.service';
 
 
 @Component({
@@ -9,20 +8,16 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['./note-editor.component.less']
 })
 export class NoteEditorComponent implements OnInit {
-    private noteBodyStreamSubscription: Subscription;
-    initContent: string;
-
-    constructor(private noteStore: NoteStoreService,
-                private changeDetectionRef: ChangeDetectorRef) {
+    constructor(private noteEditorService: NoteEditorService,
+                private elementRef: ElementRef,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
-        this.noteBodyStreamSubscription = this.noteStore.noteBody.subscribe((noteBody) => {
-            if (noteBody) {
-                this.initContent = noteBody.content;
-            }
+        const containerElem = this.elementRef.nativeElement.querySelector('.NoteEditor__container');
 
-            this.changeDetectionRef.detectChanges();
+        this.noteEditorService.init(containerElem, {
+            renderer: this.renderer
         });
     }
 }

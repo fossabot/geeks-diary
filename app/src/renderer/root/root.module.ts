@@ -9,6 +9,7 @@ import { NoteModule } from '../note/note.module';
 
 import { ActivityViewComponent } from './activity-view/activity-view.component';
 import { RootComponent } from './root.component';
+import { CodeModule } from '../code/code.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { RootComponent } from './root.component';
         CommonModule,
         CoreModule,
         UIModule,
-        NoteModule
+        NoteModule,
+        CodeModule
     ],
     declarations: [
         ActivityViewComponent,

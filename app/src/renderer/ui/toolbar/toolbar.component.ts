@@ -12,7 +12,7 @@ export interface ToolbarItem {
 
 
 @Component({
-    selector: 'app-toolbar',
+    selector: 'ui-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.less']
 })

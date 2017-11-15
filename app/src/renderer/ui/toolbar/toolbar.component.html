@@ -2,14 +2,14 @@
     <li *ngFor="let item of items"
         role="presentation"
         class="Toolbar__item">
-        <app-button (buttonClick)="clickToolbarItem(item)"
-                    [title]="item.title"
-                    type="flat"
-                    [active]="isItemActive(item)"
-                    [size]="size">
-            <app-icon [name]="item.iconName"
-                      color="gray"
-                      [size]="size"></app-icon>
-        </app-button>
+        <ui-button (buttonClick)="clickToolbarItem(item)"
+                   [title]="item.title"
+                   type="flat"
+                   [active]="isItemActive(item)"
+                   [size]="size">
+            <ui-icon [name]="item.iconName"
+                     color="gray"
+                     [size]="size"></ui-icon>
+        </ui-button>
     </li>
 </ul>
