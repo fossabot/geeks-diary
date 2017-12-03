@@ -165,7 +165,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
 
         this.editor.layout({
             width: contentWidth,
-            height: lineCount * this.editorOptions.lineHeight
+            height: lineCount * this.editorOptions.lineHeight + 10
         });
     }
 
