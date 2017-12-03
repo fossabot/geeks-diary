@@ -1,5 +1,4 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
-
 import { ClassName } from '../../../common/utils/class-name';
 
 
@@ -13,22 +12,23 @@ export class IconComponent implements OnInit, OnChanges {
     @Input() size = 'regular';
     @Input() color = 'black';
     iconClassName = '';
-    cn = new ClassName('Icon');
-
-    private parseClassName() {
-        this.iconClassName = `la la-${this.name}`;
-
-        this.cn.setModifier('size', this.size);
-        this.cn.setModifier('color', this.color);
-    }
+    className = new ClassName('Icon');
 
     constructor() {
     }
 
     ngOnInit() {
+        this.parseClassName();
     }
 
     ngOnChanges() {
         this.parseClassName();
+    }
+
+    private parseClassName() {
+        this.iconClassName = `la la-${this.name}`;
+
+        this.className.setModifier('size', this.size);
+        this.className.setModifier('color', this.color);
     }
 }

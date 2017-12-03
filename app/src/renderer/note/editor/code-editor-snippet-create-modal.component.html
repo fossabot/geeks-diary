@@ -1,0 +1,40 @@
+<div role="dialog" class="NoteCodeEditorSnippetCreateModal">
+    <header>
+        <h1 class="NoteCodeEditorSnippetCreateModal__title">Create code snippet</h1>
+        <ui-button (buttonClick)="close()" title="Close modal" size="small" type="flat">
+            <ui-icon name="times" size="small" color="darkGray"></ui-icon>
+        </ui-button>
+    </header>
+
+    <section>
+        <form [formGroup]="creationForm" (ngSubmit)="submit($event)"
+              class="NoteCodeEditorSnippetCreateModal__creationForm">
+            <label for="fileNameInput">File name</label>
+            <ui-input-wrapper>
+                <input id="fileNameInput" formControlName="fileName" type="text" autofocus/>
+                <span *ngIf="fileNameControl.errors?.required && fileNameControl.touched"
+                      #fileNameInput class="NoteCodeEditorSnippetCreateModal__errorMessage">
+                    File name is required
+                </span>
+            </ui-input-wrapper>
+
+            <label for="languageInput">Language</label>
+            <ui-input-wrapper>
+                <input id="languageInput" formControlName="language"
+                       [uiAutocomplete]="auto" type="text"/>
+                <span *ngIf="languageControl.errors?.required && languageControl.touched"
+                      #languageInput class="NoteCodeEditorSnippetCreateModal__errorMessage">
+                    Language is required
+                </span>
+
+                <ui-autocomplete #auto="uiAutocomplete"
+                                 [options]="languageSearchResult"></ui-autocomplete>
+            </ui-input-wrapper>
+
+            <footer class="NoteCodeEditorSnippetCreateModal__submit">
+                <ui-button title="Cancel">Cancel</ui-button>
+                <ui-button title="Create code snippet" type="primary" buttonType="submit">Create</ui-button>
+            </footer>
+        </form>
+    </section>
+</div>

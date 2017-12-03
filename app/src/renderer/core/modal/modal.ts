@@ -1,34 +1,34 @@
 import { Injectable, Type } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import { ModalHost } from './modal-host';
 
 
 export enum ModalEventName {
     OPEN,
-    RESOLVE,
-    CLOSE
+    CLOSE,
+    RESOLVE
 }
 
-export interface ModalEvent {
-    name: ModalEventName;
-    targetId: string;
-    payload?: any;
+export class ModalEvent {
+    constructor(public name: ModalEventName, public payload?: any) {}
 }
 
 export interface ModalRef {
     id: string;
-    events: Observable<any>;
+    resolves
+        : Observable<ModalEvent>;
 }
 
 
-let globalId = 0;
+let globalUniqueId = 0;
 
 @Injectable()
 export class Modal {
     private _opened = false;
     private _events = new Subject<ModalEvent>();
-    private currentModalRef: ModalRef;
+    private modalRef: ModalRef = null;
 
     get opened(): boolean {
         return this._opened;
@@ -38,67 +38,55 @@ export class Modal {
         return this._events.asObservable();
     }
 
-    open(component: Type<ModalHost>, inputs: any = null): ModalRef {
+    open(component: Type<ModalHost>, inputs?: any) {
         if (this.opened) {
             this.close();
         }
 
-        const events = new Observable((observer) => {
-            const subscription = this._events.subscribe((e) => {
-                if (!this.currentModalRef) {
+        const resolves = new Observable((observer: Observer<ModalEvent>) => {
+            const events = this._events.subscribe((event: ModalEvent) => {
+                if (!this.modalRef) {
                     return;
                 }
 
-                if (this.currentModalRef.id !== e.targetId) {
-                    return;
-                }
-
-                observer.next(e);
-
-                if (e.name === ModalEventName.CLOSE
-                    || e.name === ModalEventName.RESOLVE) {
+                if (event.name === ModalEventName.RESOLVE) {
+                    observer.next(event);
                     observer.complete();
                 }
 
-                return () => {
-                    subscription.unsubscribe();
-                };
+                if (event.name === ModalEventName.CLOSE) {
+                    observer.next(event);
+                    observer.complete();
+                }
             });
+
+            return () => {
+                events.unsubscribe();
+            };
         });
 
-        this.currentModalRef = {
-            id: `Modal-${globalId++}`,
-            events
+        this.modalRef = {
+            id: `Modal-${globalUniqueId++}`,
+            resolves
         };
-
-        this._events.next({
-            name: ModalEventName.OPEN,
-            targetId: this.currentModalRef.id,
-            payload: { component, inputs }
-        });
-
+        this._events.next(new ModalEvent(ModalEventName.OPEN, { component, inputs }));
         this._opened = true;
 
-        return this.currentModalRef;
+        return this.modalRef;
     }
 
     close() {
-        const id = this.opened ? this.currentModalRef.id : null;
-
-        this._events.next({
-            name: ModalEventName.CLOSE,
-            targetId: id
-        });
-
-        this.currentModalRef = null;
-        this._opened = false;
+        this._events.next(new ModalEvent(ModalEventName.CLOSE));
+        this.onCompleteClose();
     }
 
-    resolve(payload: any = null) {
-        this._events.next({
-            name: ModalEventName.RESOLVE,
-            targetId: this.currentModalRef.id,
-            payload
-        });
+    resolve(payload?: any) {
+        this._events.next(new ModalEvent(ModalEventName.RESOLVE, payload));
+        this.onCompleteClose();
+    }
+
+    private onCompleteClose() {
+        this.modalRef = null;
+        this._opened = false;
     }
 }

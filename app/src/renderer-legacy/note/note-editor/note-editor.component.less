@@ -1,0 +1,50 @@
+.NoteEditor {
+    width: 100%;
+    height: 100%;
+
+    &__tools {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--space-small-size);
+        height: var(--container-regular-size);
+        border-bottom: 1px solid var(--color-gray-3);
+        background-color: var(--color-gray-0);
+    }
+
+    &__content {
+        padding: var(--space-big-size);
+        // height: calc(~"100% - var(--container-regular-size");
+    }
+
+    &__title {
+        display: block;
+        border-radius: 5px;
+        height: var(--lineHeight-big-size);
+
+        & > textarea {
+            display: block;
+            width: 100%;
+            height: 100%;
+            resize: none;
+            background: transparent;
+            border: none;
+            outline: 0;
+            font-size: var(--text-big-size);
+            line-height: var(--lineHeight-big-size);
+            color: var(--color-gray-9);
+            overflow: hidden;
+            margin: 0;
+            padding: var(--space-regular-size);
+        }
+
+        &.focused {
+            padding: calc(~"var(--space-small-size) - 1px");
+            border: 1px solid var(--color-gray-4);
+        }
+    }
+
+    &__container {
+        width: 100%;
+        height: 100%;
+    }
+}

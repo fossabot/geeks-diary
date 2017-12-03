@@ -1,5 +1,4 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
-
 import { ClassName } from '../../../common/utils/class-name';
 
 
@@ -16,36 +15,28 @@ export class ButtonComponent implements OnInit, OnChanges {
     @Input() disabled = false;
     @Input() active = false;
     @Input() buttonType = 'button';
-    @Input() buttonTabIndex = 0;
-    @Output() buttonClick = new EventEmitter();
-    cn = new ClassName('Button');
-
-    private parseClassName() {
-        this.cn.setModifier('type', this.type);
-        this.cn.setModifier('size', this.size);
-
-        if (this.loading) {
-            this.cn.setModifier('loading', 'enable');
-        }
-
-        if (this.active) {
-            this.cn.setModifier('active', 'enable');
-        } else {
-            this.cn.removeModifier('active');
-        }
-    }
+    @Input() tabIndex = 0;
+    @Output() buttonClick = new EventEmitter<Event>();
+    className = new ClassName('Button');
 
     constructor() {
     }
 
     ngOnInit() {
-    }
-
-    ngOnChanges(changesObj) {
         this.parseClassName();
     }
 
-    click() {
-        this.buttonClick.emit();
+    ngOnChanges() {
+        this.parseClassName();
+    }
+
+    click(event: Event) {
+        this.buttonClick.emit(event);
+    }
+
+    private parseClassName() {
+        this.className.setModifier('size', this.size);
+        this.className.setModifier('type', this.type);
+        this.className.setModifier('active', this.active ? 'enabled' : 'disabled');
     }
 }

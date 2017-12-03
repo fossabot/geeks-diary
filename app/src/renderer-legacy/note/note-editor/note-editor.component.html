@@ -1,0 +1,24 @@
+<div class="NoteEditor">
+    <div class="NoteEditor__tools">
+        <div class="NoteEditor__textEditorSnippetTools">
+            <ui-toolbar title="Text editor snippet tools" [items]="textEditorSnippetTools"></ui-toolbar>
+        </div>
+
+        <div class="NoteEditor__codeEditorSnippetTools">
+            <select>
+                <option></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="NoteEditor__content">
+        <!--
+        <div [class.focused]="titleInputFocused" class="NoteEditor__title">
+            <textarea (focus)="handleTitleInputFocus(true)" (blur)="handleTitleInputFocus(false)"
+                      title="Note title input" autofocus placeholder="Title"></textarea>
+        </div>
+        -->
+
+        <div #snippetContainer class="NoteEditor__container"></div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ const config = {
     devtool: 'source-map',
     entry: {
         polyfills: paths.src('renderer/polyfills.ts'),
-        'boot-app': paths.src('renderer/boot-app.ts')
+        bootstrap: paths.src('renderer/bootstrap.ts')
     },
     output: {
         path: paths.dist(),
@@ -74,7 +74,7 @@ const config = {
     plugins: [
         new NoEmitOnErrorsPlugin(),
         new ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)@angular/,
+            /@angular(\\|\/)core(\\|\/)esm5/,
             paths.src('.'),
             {}
         ),
@@ -83,7 +83,7 @@ const config = {
             minChunks(module) {
                 return module.resource && (module.resource.startsWith(paths.nodeModules()));
             },
-            chunks: ['boot-app']
+            chunks: ['bootstrap']
         })
     ],
     stats: {

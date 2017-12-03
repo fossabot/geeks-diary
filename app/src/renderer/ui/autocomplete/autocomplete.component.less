@@ -1,0 +1,38 @@
+.Autocomplete {
+    display: none;
+
+    &.show {
+        display: block;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        max-height: 300px;
+        overflow-y: scroll;
+        background-color: var(--color-white);
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+
+        & > li {
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 32px;
+            list-style: none;
+            border-bottom: 1px solid var(--color-gray-3);
+        }
+    }
+
+    &__item {
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        &.activate {
+            background-color: var(--color-cyan-1);
+        }
+    }
+}

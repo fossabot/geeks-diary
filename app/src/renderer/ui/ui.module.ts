@@ -1,38 +1,38 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { DateHelper } from '../shared/date-helper';
-
 import { ButtonComponent } from './button/button.component';
-import { CalendarConfig } from './calendar/calendar-config';
-import { CalendarTable, calendarTableFactory } from './calendar/calendar-table.factory';
 import { IconComponent } from './icon/icon.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { AutocompleteTriggerDirective } from './autocomplete/autocomplete-trigger.directive';
+import { InputWrapperComponent } from './input/input-wrapper.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ],
     declarations: [
         ButtonComponent,
         IconComponent,
-        ToolbarComponent
+        ToolbarComponent,
+        InputWrapperComponent,
+        AutocompleteComponent,
+        AutocompleteTriggerDirective
     ],
-    providers: [
-        CalendarConfig,
-        {
-            provide: CalendarTable,
-            useFactory: calendarTableFactory,
-            deps: [DateHelper, CalendarConfig]
-        }
-    ],
+    providers: [],
     exports: [
+        CommonModule,
+        ReactiveFormsModule,
         ButtonComponent,
         IconComponent,
-        ToolbarComponent
+        ToolbarComponent,
+        InputWrapperComponent,
+        AutocompleteComponent,
+        AutocompleteTriggerDirective
     ]
 })
 export class UIModule {
-
 }

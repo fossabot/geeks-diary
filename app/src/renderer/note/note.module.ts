@@ -1,48 +1,31 @@
 import { NgModule } from '@angular/core';
-
-import { SharedModule } from '../shared/shared.module';
 import { UIModule } from '../ui/ui.module';
-
-import { NoteCalendarComponent } from './note-calendar/note-calendar.component';
-import { NoteCalendarDateCellComponent } from './note-calendar-date-cell/note-calendar-date-cell.component';
-import { NoteBrowserComponent } from './note-browser/note-browser.component';
-import { NoteItemComponent } from './note-item/note-item.component';
-import { NoteHeaderComponent } from './note-header/note-header.component';
-import { NoteStoreService } from './note-store.service';
-import { NoteEditorComponent } from './note-editor/note-editor.component';
-import { NotePrettierService } from './note-preview/note-prettier.service';
-import { NotePreviewComponent } from './note-preview/note-preview.component';
-import { NoteWorkspaceComponent } from './note-workspace/note-workspace.component';
-import { NoteEditorService } from './note-editor/note-editor.service';
-import { NoteCodeEditorSnippetCreateModalComponent } from './note-editor/code-snippet-create-modal.component';
+import { NoteFinderComponent } from './finder/finder.component';
+import { NoteCodeEditorSnippetCreateModalComponent } from './editor/code-editor-snippet-create-modal.component';
+import { NoteEditorComponent } from './editor/editor.component';
+import { NoteWorkspaceComponent } from './workspace/workspace.component';
+import { NoteEditorService } from './editor/editor.service';
 
 
 @NgModule({
     imports: [
-        SharedModule,
         UIModule
     ],
     declarations: [
-        NoteCalendarComponent,
-        NoteCalendarDateCellComponent,
-        NoteBrowserComponent,
-        NoteItemComponent,
-        NoteHeaderComponent,
+        NoteFinderComponent,
         NoteEditorComponent,
-        NoteWorkspaceComponent,
-        NotePreviewComponent,
-        NoteCodeEditorSnippetCreateModalComponent
+        NoteCodeEditorSnippetCreateModalComponent,
+        NoteWorkspaceComponent
     ],
     entryComponents: [
+        NoteFinderComponent,
         NoteCodeEditorSnippetCreateModalComponent
     ],
     providers: [
-        NoteStoreService,
-        NotePrettierService,
         NoteEditorService
     ],
     exports: [
-        NoteBrowserComponent,
+        NoteFinderComponent,
         NoteWorkspaceComponent
     ]
 })

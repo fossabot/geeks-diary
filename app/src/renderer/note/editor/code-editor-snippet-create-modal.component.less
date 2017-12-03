@@ -1,0 +1,86 @@
+@import "../../themes";
+
+
+&:host {
+    display: block;
+}
+
+
+.NoteCodeEditorSnippetCreateModal {
+    width: 320px;
+    border-radius: 5px;
+    box-shadow: 0 13px 30px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid @color-border;
+    // background-color: var(--color-gray-0);
+
+    & > header {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--space-small-size) 0 var(--space-regular-size);
+        height: calc(~"var(--container-small-size) + 1px");
+        background-image: linear-gradient(to bottom, var(--color-gray-2), var(--color-gray-3));
+        border-bottom: 1px solid var(--color-gray-4);
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
+    &__title {
+        flex: 1;
+        margin: 0;
+        padding: 0 var(--space-small-size);
+        font-size: var(--text-regular-size);
+        font-weight: bold;
+        line-height: var(--lineHeight-regular-size);
+    }
+
+    &__creationForm {
+        padding: var(--space-big-size);
+
+        & label {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-small-size);
+            width: 100%;
+            height: var(--lineHeight-regular-size);
+            font-size: var(--text-regular-size);
+            line-height: var(--lineHeight-regular-size);
+        }
+
+        & input {
+            display: block;
+            width: 100%;
+            height: var(--box-regular-size);
+            padding: 0 var(--space-small-size);
+            font-size: var(--text-regular-size);
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-4);
+            outline: 0;
+
+            &:focus {
+                box-shadow: 0 0 5px var(--color-blue-3);
+                border: 1px solid var(--color-blue-3);
+            }
+
+            &.ng-invalid.ng-touched {
+                border-color: var(--color-red-4);
+
+                &:focus {
+                    box-shadow: 0 0 5px var(--color-red-4);
+                    border: 1px solid var(--color-red-4);
+                }
+            }
+        }
+    }
+
+    &__errorMessage {
+        display: block;
+        height: var(--lineHeight-regular-size);
+        font-size: var(--text-small-size);
+        line-height: var(--lineHeight-regular-size);
+        color: var(--color-red-5);
+    }
+
+    &__submit {
+        padding-top: var(--space-regular-size);
+    }
+}

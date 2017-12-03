@@ -1,0 +1,41 @@
+.NoteItem {
+    position: relative;
+    display: block;
+    padding: var(--space-big-size) var(--space-regular-size) var(--space-regular-size) var(--space-regular-size);
+    cursor: pointer;
+    width: 100%;
+
+    &__statusBar {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: var(--space-regular-size);
+        height: 100%;
+    }
+
+    &__title {
+        margin: 0 0 var(--space-small-size) 0;
+        padding: 0 var(--space-small-size);
+        width: 100%;
+        height: var(--lineHeight-medium-size);
+        font-size: var(--lineHeight-medium-size);
+        font-weight: 500;
+        line-height: var(--lineHeight-medium-size);
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__metadata {
+        display: flex;
+        padding: 0 var(--space-small-size);
+    }
+
+    &__createdAt {
+        font-size: var(--text-small-size);
+    }
+
+    &.selected {
+        background-color: var(--color-blue-0);
+    }
+}

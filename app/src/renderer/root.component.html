@@ -1,0 +1,13 @@
+<div [class.sidebarPanelOpened]="sidebarPanelOpened" class="Root">
+    <div class="Root__container">
+        <aside class="Root__aside">
+            <core-sidebar [outlets]="sidebarOutlets"
+                          (toggle)="toggleSidebarPanel($event)"></core-sidebar>
+        </aside>
+        <main class="Root__workspace">
+            <note-workspace></note-workspace>
+        </main>
+    </div>
+
+    <core-modal-container></core-modal-container>
+</div>

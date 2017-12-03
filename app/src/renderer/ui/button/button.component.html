@@ -1,9 +1,9 @@
-<button (click)="click()"
-        [ngClass]="cn.get()"
+<button (click)="click($event)"
+        [ngClass]="className.get()"
         [title]="title"
         [disabled]="disabled"
         [attr.type]="buttonType"
-        [attr.tabindex]="buttonTabIndex"
+        [attr.tabindex]="tabIndex"
         class="Button">
     <span [hidden]="loading" class="Button__content">
         <ng-content></ng-content>

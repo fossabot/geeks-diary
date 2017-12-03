@@ -1,0 +1,37 @@
+@import "./themes";
+
+
+.Root {
+    width: 100%;
+    height: 100%;
+
+    &__container {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__aside {
+        float: left;
+        display: inline-flex;
+        width: var(--container-big-size);
+        height: 100%;
+    }
+
+    &__workspace {
+        float: left;
+        display: inline-flex;
+        width: calc(~"100% - var(--container-big-size)");
+        flex-direction: column;
+        height: 100%;
+    }
+
+    &.sidebarPanelOpened {
+        .Root__aside {
+            width: @sidebar-width;
+        }
+
+        .Root__workspace {
+            width: calc(~"100% - @{sidebar-width}");
+        }
+    }
+}

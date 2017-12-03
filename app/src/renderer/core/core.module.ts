@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
-
-import { SharedModule } from '../shared/shared.module';
+import { UIModule } from '../ui/ui.module';
+import { DateHelper } from './date-helper';
 import { ModalContainerComponent } from './modal/modal-container.component';
 import { Modal } from './modal/modal';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 @NgModule({
     imports: [
-        SharedModule
+        UIModule
     ],
     declarations: [
-        ModalContainerComponent
+        ModalContainerComponent,
+        SidebarComponent
     ],
     providers: [
-        Modal
+        Modal,
+        DateHelper
     ],
     exports: [
-        ModalContainerComponent
+        ModalContainerComponent,
+        SidebarComponent
     ]
 })
 export class CoreModule {
-
 }

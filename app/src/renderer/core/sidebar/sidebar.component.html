@@ -1,0 +1,22 @@
+<div [class.panelOpened]="showPanel" class="Sidebar">
+    <nav>
+        <ui-toolbar [items]="toolbarItems"
+                    [activeItemId]="activeItemId"
+                    (toolBarClick)="togglePanel($event)"
+                    size="big"
+                    title="Sidebar view navigator"
+                    direction="vertical"
+                    class="Sidebar__outletNavItem"></ui-toolbar>
+        <ui-toolbar></ui-toolbar>
+    </nav>
+
+    <section>
+        <div *ngFor="let outlet of outlets"
+             class="Sidebar__panelContainer">
+            <ng-container *ngComponentOutlet="outlet.component; injector: outlet.injector; content: outlet?.content"
+                          [class.show]="isPanelActive(outlet)"
+                          class="Sidebar__panel"></ng-container>
+        </div>
+
+    </section>
+</div>

@@ -1,76 +1,71 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnDestroy, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+    Component, ComponentFactoryResolver, ComponentRef,
+    OnDestroy, OnInit, Type, ViewChild, ViewContainerRef
+} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-
 import { ModalHost } from './modal-host';
 import { Modal, ModalEvent, ModalEventName } from './modal';
 
 
 @Component({
-    selector: 'app-modal-container',
+    selector: 'core-modal-container',
     templateUrl: './modal-container.component.html',
     styleUrls: ['./modal-container.component.less']
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
-    private currentModalComponentRef: ComponentRef<ModalHost>;
-    private modalEventsSubscription: Subscription;
-    @ViewChild('modalHost', { read: ViewContainerRef }) modalHostView;
+    @ViewChild('modalHost', { read: ViewContainerRef }) modalHostView: ViewContainerRef;
     opened = false;
 
-    constructor(private modal: Modal, private componentFactoryResolver: ComponentFactoryResolver) {
-    }
+    private modalComponentRef: ComponentRef<ModalHost>;
+    private modalEventSubscription: Subscription;
 
-    get showModal(): boolean {
-        return this.opened;
+    constructor(private modal: Modal,
+                private componentFactoryResolver: ComponentFactoryResolver) {
     }
 
     ngOnInit() {
-        this.modalEventsSubscription = this.modal.events.subscribe(
-            modalEvent => this.handleModalEvents(modalEvent)
-        );
+        this.modalEventSubscription = this.modal.events.subscribe((event) => {
+            this.handleModalEvent(event);
+        });
     }
 
     ngOnDestroy() {
-        if (this.modalEventsSubscription) {
-            this.modalEventsSubscription.unsubscribe();
+        if (this.modalEventSubscription) {
+            this.modalEventSubscription.unsubscribe();
+        }
+    }
+
+    private handleModalEvent(event: ModalEvent) {
+        switch (event.name) {
+            case ModalEventName.OPEN:
+                this.openModal(event.payload.component, event.payload.inputs);
+                break;
+            case ModalEventName.RESOLVE:
+            case ModalEventName.CLOSE:
+                this.closeModal();
+                break;
         }
     }
 
     private openModal(component: Type<ModalHost>, inputs: any = null) {
-        if (this.opened) {
-            this.closeModal();
-        }
-
+        console.log(component);
         const factory = this.componentFactoryResolver.resolveComponentFactory(component);
-        this.currentModalComponentRef = this.modalHostView.createComponent(factory);
+        this.modalComponentRef = this.modalHostView.createComponent(factory);
 
-        const instance = this.currentModalComponentRef.instance;
+        const instance = this.modalComponentRef.instance;
         instance.inputs = inputs;
 
         this.opened = true;
     }
 
     private closeModal() {
-        if (this.opened) {
-            if (this.currentModalComponentRef) {
-                this.currentModalComponentRef.destroy();
-                this.currentModalComponentRef = null;
-            }
-
-            this.modalHostView.clear();
-            this.opened = false;
+        if (this.modalComponentRef) {
+            this.modalComponentRef.destroy();
+            this.modalComponentRef = null;
         }
+
+        this.modalHostView.clear();
+        this.opened = false;
     }
 
-    private handleModalEvents(event: ModalEvent) {
-        switch (event.name) {
-            case ModalEventName.OPEN:
-                this.openModal(event.payload.component, event.payload.inputs);
-                break;
-            case ModalEventName.CLOSE:
-                this.closeModal();
-                break;
-            default:
-                return;
-        }
-    }
 }

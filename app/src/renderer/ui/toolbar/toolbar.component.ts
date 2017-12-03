@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, OnChanges, Input, Output } from '@angular/core';
-
 import { ClassName } from '../../../common/utils/class-name';
 
 
@@ -23,12 +22,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     @Input() items: ToolbarItem[] = [];
     @Input() activeItemId: string | number | null = null;
     @Output() toolBarClick: EventEmitter<ToolbarItem> = new EventEmitter();
-    cn = new ClassName('Toolbar');
-
-    private parseClassName() {
-        this.cn.setModifier('size', this.size);
-        this.cn.setModifier('direction', this.direction);
-    }
+    className = new ClassName('Toolbar');
 
     ngOnInit() {
     }
@@ -47,5 +41,10 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
     clickToolbarItem(item: ToolbarItem) {
         this.toolBarClick.emit(item);
+    }
+
+    private parseClassName() {
+        this.className.setModifier('size', this.size);
+        this.className.setModifier('direction', this.direction);
     }
 }
