@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { UIModule } from '../ui/ui.module';
 import { DateHelper } from './date-helper';
 import { ModalContainerComponent } from './modal/modal-container.component';
@@ -16,6 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ],
     providers: [
         Modal,
+        DatePipe,
         DateHelper
     ],
     exports: [
