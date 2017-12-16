@@ -12,6 +12,10 @@ process.on('uncaughtException', (error) => {
 });
 
 app.once('ready', () => {
-    appDelegate.run();
-    console.log('START! 😸');
+    appDelegate
+        .init()
+        .subscribe(() => {
+            console.log('START! 😸');
+            appDelegate.run();
+        });
 });

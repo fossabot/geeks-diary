@@ -1,12 +1,22 @@
-import { app, Menu } from 'electron';
+import { app } from 'electron';
 import * as EventEmitter from 'events';
+import * as path from 'path';
+import { Observable } from 'rxjs/Observable';
 
 import { Window } from './windows/window';
 import { AppWindow } from './windows/app-window';
+import { environment } from '../config/environment';
+import { ensureDirAsObservable } from '../common/utils/fs-helpers';
 
 
 class AppDelegate extends EventEmitter {
     windows: Window[] = [];
+
+    init(): Observable<void> {
+        const noteStorePath = path.resolve(environment.getPath('userData'), 'notes/');
+
+        return ensureDirAsObservable(noteStorePath);
+    }
 
     handleEvents() {
         this.on('app.openWindow', () => {
