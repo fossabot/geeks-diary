@@ -17,11 +17,10 @@ class Environment {
         }
     }
 
-    setConfig(config: Config) {
+    setConfig(config: Config): void {
         this.config = config;
     }
 
-    // noinspection JSMethodCanBeStatic
     getPath(name: string): string {
         return app.getPath(name);
     }
