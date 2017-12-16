@@ -13,8 +13,8 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
     private contentElem: HTMLElement;
     private editor: CodeMirror.Editor;
 
-    constructor(containerElem: HTMLElement) {
-        super(NoteTextEditorSnippet.className, containerElem);
+    constructor(containerElem: HTMLElement, initialValue: string = '') {
+        super(NoteTextEditorSnippet.className, containerElem, initialValue);
 
         this.contentElem =
             this.containerElem.querySelector(`.${NoteTextEditorSnippet.className}__content`);
@@ -22,7 +22,7 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
 
     get editorOptions(): CodeMirror.EditorConfiguration {
         return {
-            value: '',
+            value: this.initialValue,
             mode: 'markdown',
             indentUnit: 4,
             lineWrapping: true,
@@ -44,7 +44,7 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         return doc.getCursor().line === doc.lastLine();
     }
 
-    init() {
+    init(): void {
         this.editor = CodeMirror(this.contentElem, this.editorOptions);
 
         this.editor.on('focus', () => {
@@ -66,25 +66,25 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         this.focus();
     }
 
-    destroy() {
+    destroy(): void {
         if (this._events) {
             this._events.complete();
             this._events = null;
         }
     }
 
-    focus() {
+    focus(): void {
         this.editor.focus();
     }
 
-    setPositionToTop() {
+    setPositionToTop(): void {
         this.editor.getDoc().setCursor({
             ch: 0,
             line: 0
         });
     }
 
-    setPositionToBottom() {
+    setPositionToBottom(): void {
         const doc = this.editor.getDoc();
 
         doc.setCursor({
@@ -93,7 +93,7 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    private handleFocus(focused: boolean) {
+    private handleFocus(focused: boolean): void {
         const className = `${NoteTextEditorSnippet.className}--focused`;
         this._focused = focused;
 
@@ -113,7 +113,7 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    private handleKeyDown(event: KeyboardEvent) {
+    private handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case BACKSPACE:
                 const value = this.editor.getDoc().getValue();

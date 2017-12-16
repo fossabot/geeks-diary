@@ -1,18 +1,34 @@
 import * as fs from 'fs';
+import { bindNodeCallback } from 'rxjs/observable/bindNodeCallback';
 import { Observable } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
 
 
-export const readFileAsObservable = Observable.bindNodeCallback((
+export const accessAsObservable = bindNodeCallback(fs.access, () => null);
+
+
+export const readFileAsObservable = bindNodeCallback((
     filename: string,
     encoding: string,
     callback: (error: Error, buffer: Buffer) => void
 ) => fs.readFile(filename, encoding, callback));
 
 
-export const readdirAsObservable = Observable.bindNodeCallback((
+export const readdirAsObservable = bindNodeCallback((
     dirname: string,
     callback: (error: Error, files: string[]) => void
 ) => fs.readdir(dirname, callback));
 
 
-export const writeFileAsObservable = Observable.bindNodeCallback(fs.writeFile, () => null);
+export const writeFileAsObservable = bindNodeCallback(fs.writeFile, () => null);
+
+
+export const mkdirAsObservable = bindNodeCallback(fs.mkdir, () => null);
+
+
+export function ensureDirAsObservable(dirname: string): Observable<void> {
+    return accessAsObservable(dirname)
+        .pipe(
+            catchError(() => mkdirAsObservable(dirname))
+        );
+}

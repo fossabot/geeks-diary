@@ -1,5 +1,9 @@
 <div class="NoteEditor">
-    <div class="NoteEditor__tools"></div>
+    <div class="NoteEditor__commander">
+        <div class="NoteEditor__tools">
+            <ui-toolbar [items]="textEditTools" size="regular"></ui-toolbar>
+        </div>
+    </div>
 
     <div class="NoteEditor__content">
         <div #snippetContainer class="NoteEditor__container"></div>

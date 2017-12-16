@@ -30,7 +30,7 @@ export abstract class NoteEditorSnippet {
 
     abstract type: string;
 
-    constructor(className: string, containerElem: HTMLElement) {
+    constructor(className: string, containerElem: HTMLElement, protected initialValue: string) {
         this._className = className;
         this._id = `${this._className}-${globalId++}`;
 

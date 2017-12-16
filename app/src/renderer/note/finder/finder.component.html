@@ -1,3 +1,26 @@
 <div class="NoteFinder">
-    Note finder
+    <header>
+        <h1 class="NoteFinder__title">Note Finder</h1>
+        <ui-toolbar title="Note browser actions"
+                    [items]="[]"></ui-toolbar>
+    </header>
+
+    <div class="NoteFinder__calendar"></div>
+
+    <ul class="NoteFinder__list">
+        <li *ngFor="let note of noteItems | async"
+            class="NoteFinder__item">
+            <a (click)="selectNoteItem(note)"
+               [class.selected]="isNoteItemSelected(noteItemSelection | async, note)"
+               class="NoteItem">
+                <label class="NoteItem__statusBar"></label>
+                <h1 class="NoteItem__title">{{note.title}}</h1>
+                <div class="NoteItem__metadata">
+                    <time [attr.datetime]="note.createdAt | date" class="NoteItem__createdAt">
+                        {{note.createdAt | date:'y. M. d'}}
+                    </time>
+                </div>
+            </a>
+        </li>
+    </ul>
 </div>

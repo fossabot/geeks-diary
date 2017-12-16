@@ -6,6 +6,7 @@ import { NoteTextEditorSnippet } from './snippets/text-editor-snippet';
 import { NoteCodeEditorSnippet } from './snippets/code-editor-snippet';
 import { Modal, ModalEventName } from '../../core/modal/modal';
 import { NoteCodeEditorSnippetCreateModalComponent } from './code-editor-snippet-create-modal.component';
+import { NoteBody, NoteBodyCodeSnippet, NoteBodySnippet, NoteBodyTextSnippet } from '../models';
 
 
 interface NoteEditorServiceInjection {
@@ -33,47 +34,42 @@ export class NoteEditorService {
         return this._snippetEventSubscriptions.values;
     }
 
-    init(containerElem: HTMLElement, injection: NoteEditorServiceInjection) {
+    init(containerElem: HTMLElement, injection: NoteEditorServiceInjection): void {
         this.containerElem = containerElem;
         this.renderer = injection.renderer;
-
-        const newSnippet = this.createSnippetInstance();
-        this.renderer.appendChild(this.containerElem, newSnippet.domNode);
-        newSnippet.init();
-
-        this._snippets.put(newSnippet.id, newSnippet);
-        this._snippetEventSubscriptions.put(
-            newSnippet.id,
-            newSnippet.events.subscribe(event => this.handleSnippetEvent(event))
-        );
     }
 
-    createSnippetInstance(type: 'text'|'code' = 'text'): NoteEditorSnippet {
-        const snippetElem = this.renderer.createElement('div');
-        const contentElem = this.renderer.createElement('div');
+    clear(): void {
+        this._snippets.forEach((snippet) => {
+            this.removeSnippet(snippet.id);
+        });
+    }
 
-        this.renderer.addClass(snippetElem, 'NoteEditorSnippet');
-        this.renderer.addClass(contentElem, 'NoteEditorSnippet__content');
+    parseNoteBody(noteBody: NoteBody): void {
+        this.clear();
 
-        switch (type) {
+        let refSnippetId;
+
+        // Insert each snippet.
+        noteBody.forEachSnippet((noteBodySnippet) => {
+            const newSnippet = this.createSnippetInstance(noteBodySnippet);
+
+            this.insertSnippet(newSnippet, refSnippetId);
+            refSnippetId = newSnippet.id;
+        });
+    }
+
+    createSnippetInstance(noteBodySnippet: NoteBodySnippet): NoteEditorSnippet {
+        switch (noteBodySnippet.type) {
             case 'text':
-                this.renderer.addClass(snippetElem, NoteTextEditorSnippet.className);
-                this.renderer.addClass(contentElem, `${NoteTextEditorSnippet.className}__content`);
-                this.renderer.appendChild(snippetElem, contentElem);
-
-                return new NoteTextEditorSnippet(snippetElem);
-
+                return this.createTextSnippetInstance(noteBodySnippet as NoteBodyTextSnippet);
             case 'code':
-                this.renderer.addClass(snippetElem, NoteCodeEditorSnippet.className);
-                this.renderer.addClass(contentElem, `${NoteCodeEditorSnippet.className}__content`);
-                this.renderer.appendChild(snippetElem, contentElem);
-
-                return new NoteCodeEditorSnippet(snippetElem);
+                return this.createCodeSnippetInstance(noteBodySnippet as NoteBodyCodeSnippet);
             default: throw new Error();
         }
     }
 
-    transposeSnippet(refSnippetId: string) {
+    transposeSnippet(refSnippetId: string): void {
         if (!this._snippets.hasKey(refSnippetId)) {
             return;
         }
@@ -88,9 +84,12 @@ export class NoteEditorService {
                 if (event.name === ModalEventName.RESOLVE) {
                     const { fileName, language } = event.payload;
 
-                    newSnippet = this.createSnippetInstance('code');
-                    newSnippet.setFileName(fileName);
-                    newSnippet.setLanguage(language);
+                    newSnippet = this.createCodeSnippetInstance({
+                        type: 'code',
+                        value: '',
+                        fileName,
+                        language
+                    });
 
                     this.insertSnippet(newSnippet, refSnippetId);
                 } else if (event.name === ModalEventName.CLOSE) {
@@ -98,13 +97,27 @@ export class NoteEditorService {
                 }
             });
         } else if (refSnippet.type === 'code') {
-            newSnippet = this.createSnippetInstance('text');
+            newSnippet = this.createTextSnippetInstance({
+                type: 'text',
+                value: ''
+            });
             this.insertSnippet(newSnippet, refSnippetId);
         }
     }
 
-    insertSnippet(newSnippet: NoteEditorSnippet, refSnippetId?: string) {
+    insertSnippet(newSnippet: NoteEditorSnippet, refSnippetId?: string): void {
         let index;
+
+        if (!refSnippetId) {
+            this.renderer.appendChild(this.containerElem, newSnippet.domNode);
+            newSnippet.init();
+            this._snippets.insert(newSnippet.id, newSnippet);
+            this._snippetEventSubscriptions.insert(
+                newSnippet.id,
+                newSnippet.events.subscribe(event => this.handleSnippetEvent(event))
+            );
+            return;
+        }
 
         if (!this._snippets.hasKey(refSnippetId)) {
             return;
@@ -116,8 +129,8 @@ export class NoteEditorService {
         if (index === this._snippets.size - 1) {
             this.renderer.appendChild(this.containerElem, newSnippet.domNode);
         } else {
-            const snippetElems = this.containerElem.querySelectorAll('.NoteEditorSnippet');
-            const refSnippetElem = snippetElems[index + 1];
+            const snippetElemList = this.containerElem.querySelectorAll('.NoteEditorSnippet');
+            const refSnippetElem = snippetElemList[index + 1];
 
             this.renderer.insertBefore(this.containerElem, newSnippet.domNode, refSnippetElem);
         }
@@ -134,7 +147,7 @@ export class NoteEditorService {
         );
     }
 
-    removeSnippet(snippetId: string) {
+    removeSnippet(snippetId: string): void {
         if (this._snippets.hasKey(snippetId)) {
             const snippet = this._snippets.get(snippetId);
 
@@ -155,7 +168,7 @@ export class NoteEditorService {
         }
     }
 
-    moveFocus(refSnippetId: string, direction: number) {
+    moveFocus(refSnippetId: string, direction: number): void {
         if (!this._snippets.hasKey(refSnippetId)) {
             return;
         }
@@ -163,18 +176,52 @@ export class NoteEditorService {
         const index = this._snippets.indexOfKey(refSnippetId);
         const nextSnippet = this._snippets.getAt(index + direction);
 
-        if (nextSnippet) {
-            nextSnippet.focus();
+        if (!nextSnippet) {
+            return;
+        }
 
-            if (direction > 0) {
-                nextSnippet.setPositionToTop();
-            } else if (direction < 0) {
-                nextSnippet.setPositionToBottom();
-            }
+        nextSnippet.focus();
+
+        if (direction > 0) {
+            nextSnippet.setPositionToTop();
+        } else if (direction < 0) {
+            nextSnippet.setPositionToBottom();
         }
     }
 
-    private handleSnippetEvent(event: NoteEditorSnippetEvent) {
+    private createTextSnippetInstance(noteTextBodySnippet: NoteBodyTextSnippet): NoteTextEditorSnippet {
+        const snippetElem = this.renderer.createElement('div');
+        const contentElem = this.renderer.createElement('div');
+
+        this.renderer.addClass(snippetElem, 'NoteEditorSnippet');
+        this.renderer.addClass(contentElem, 'NoteEditorSnippet__content');
+
+        this.renderer.addClass(snippetElem, NoteTextEditorSnippet.className);
+        this.renderer.addClass(contentElem, `${NoteTextEditorSnippet.className}__content`);
+        this.renderer.appendChild(snippetElem, contentElem);
+
+        return new NoteTextEditorSnippet(snippetElem, noteTextBodySnippet.value);
+    }
+
+    private createCodeSnippetInstance(noteCodeBodySnippet: NoteBodyCodeSnippet): NoteCodeEditorSnippet {
+        const snippetElem = this.renderer.createElement('div');
+        const contentElem = this.renderer.createElement('div');
+
+        this.renderer.addClass(snippetElem, 'NoteEditorSnippet');
+        this.renderer.addClass(contentElem, 'NoteEditorSnippet__content');
+
+        this.renderer.addClass(snippetElem, NoteCodeEditorSnippet.className);
+        this.renderer.addClass(contentElem, `${NoteCodeEditorSnippet.className}__content`);
+        this.renderer.appendChild(snippetElem, contentElem);
+
+        const snippet = new NoteCodeEditorSnippet(snippetElem, noteCodeBodySnippet.value);
+        snippet.setFileName(noteCodeBodySnippet.fileName);
+        snippet.setLanguage(noteCodeBodySnippet.language);
+
+        return snippet;
+    }
+
+    private handleSnippetEvent(event: NoteEditorSnippetEvent): void {
         this.ngZone.run(() => {
             switch (event.name) {
                 case NoteEditorSnippetEventName.CREATE_SNIPPET_ON_NEXT:

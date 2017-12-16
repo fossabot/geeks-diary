@@ -15,8 +15,8 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
     private _fileName: string;
     private _language: string;
 
-    constructor(containerElem: HTMLElement) {
-        super(NoteCodeEditorSnippet.className, containerElem);
+    constructor(containerElem: HTMLElement, initialValue: string = '') {
+        super(NoteCodeEditorSnippet.className, containerElem, initialValue);
 
         this.contentElem =
             this.containerElem.querySelector(`.${NoteCodeEditorSnippet.className}__content`);
@@ -32,7 +32,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
 
     get editorOptions(): monaco.editor.IEditorConstructionOptions {
         return {
-            value: '',
+            value: this.initialValue,
             language: this.language,
             codeLens: false,
             fontSize: 14,
@@ -64,7 +64,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         return lineNumber === lineCount;
     }
 
-    init() {
+    init(): void {
         if ((<any>window).MONACO) {
             this.monaco = (<any>window).MONACO;
             this.render();
@@ -83,7 +83,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    destroy() {
+    destroy(): void {
         if (this.editor) {
             this.editor.dispose();
             this.editor = null;
@@ -95,18 +95,18 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         }
     }
 
-    focus() {
+    focus(): void {
         this.editor.focus();
     }
 
-    setPositionToTop() {
+    setPositionToTop(): void {
         this.editor.setPosition({
             column: 0,
             lineNumber: 1
         });
     }
 
-    setPositionToBottom() {
+    setPositionToBottom(): void {
         const lineCount = this.editor.getModel().getLineCount();
 
         this.editor.setPosition({
@@ -115,15 +115,15 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    setFileName(fileName: string) {
+    setFileName(fileName: string): void {
         this._fileName = fileName;
     }
 
-    setLanguage(language: string) {
+    setLanguage(language: string): void {
         this._language = language;
     }
 
-    private createEditor() {
+    private createEditor(): void {
         this.editor = this.monaco.editor.create(this.contentElem, this.editorOptions);
 
         this.editor.onDidFocusEditor(() => {
@@ -159,7 +159,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         this.renderLayout();
     }
 
-    private renderLayout() {
+    private renderLayout(): void {
         const contentWidth = this.contentElem.clientWidth;
         const lineCount = this.editor.getModel().getLineCount();
 
@@ -169,7 +169,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    private render() {
+    private render(): void {
         const cn = NoteCodeEditorSnippet.className;
 
         const headerElem = document.createElement('header');
@@ -191,17 +191,16 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         domStyle(this.contentElem, { 'border-color': color });
 
         const styleTag = document.createElement('style');
-        const styleContent = `
+        styleTag.textContent = `
             #${this.id} .monaco-editor .line-numbers {
                 color: ${color} !important;
             }
         `;
 
-        styleTag.textContent = styleContent;
         this.containerElem.insertBefore(styleTag, this.contentElem);
     }
 
-    private handleFocus(focused: boolean) {
+    private handleFocus(focused: boolean): void {
         const className = `${NoteCodeEditorSnippet.className}--focused`;
         this._focused = focused;
 
@@ -221,7 +220,7 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         });
     }
 
-    private handleKeyDown(event: monaco.IKeyboardEvent) {
+    private handleKeyDown(event: monaco.IKeyboardEvent): void {
         const keyCodes = this.monaco.KeyCode;
 
         switch (event.keyCode) {

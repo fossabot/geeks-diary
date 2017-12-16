@@ -5,6 +5,8 @@ import { NoteCodeEditorSnippetCreateModalComponent } from './editor/code-editor-
 import { NoteEditorComponent } from './editor/editor.component';
 import { NoteWorkspaceComponent } from './workspace/workspace.component';
 import { NoteEditorService } from './editor/editor.service';
+import { NoteStoreService } from './store.service';
+import { NotePreviewComponent } from './preview/preview.component';
 
 
 @NgModule({
@@ -15,6 +17,7 @@ import { NoteEditorService } from './editor/editor.service';
         NoteFinderComponent,
         NoteEditorComponent,
         NoteCodeEditorSnippetCreateModalComponent,
+        NotePreviewComponent,
         NoteWorkspaceComponent
     ],
     entryComponents: [
@@ -22,7 +25,8 @@ import { NoteEditorService } from './editor/editor.service';
         NoteCodeEditorSnippetCreateModalComponent
     ],
     providers: [
-        NoteEditorService
+        NoteEditorService,
+        NoteStoreService
     ],
     exports: [
         NoteFinderComponent,

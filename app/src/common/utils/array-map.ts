@@ -46,11 +46,15 @@ export class ArrayMap<T> {
         return null;
     }
 
-    put(key: string, value: T) {
+    put(key: string, value: T): void {
         this.items.push({ key, value });
     }
 
-    insertBefore(key: string, value: T, refKey: string) {
+    insert(key: string, value: T): void {
+        this.items.push({ key, value });
+    }
+
+    insertBefore(key: string, value: T, refKey: string): void {
         const refIndex = this.indexOfKey(refKey);
 
         if (!this.hasKey(refKey)) {
@@ -64,7 +68,7 @@ export class ArrayMap<T> {
         }
     }
 
-    insertAfter(key: string, value: T, refKey: string) {
+    insertAfter(key: string, value: T, refKey: string): void {
         const refIndex = this.indexOfKey(refKey);
 
         if (!this.hasKey(refKey)) {
@@ -78,16 +82,20 @@ export class ArrayMap<T> {
         }
     }
 
-    remove(key: string) {
+    remove(key: string): void {
         if (this.hasKey(key)) {
             const index = this.indexOfKey(key);
             this.items.splice(index, 1);
         }
     }
 
-    removeAt(index: number) {
+    removeAt(index: number): void {
         if (this.hasKeyAt(index)) {
             this.items.splice(index, 1);
         }
+    }
+
+    forEach(iterator: (item: T) => void): void {
+        this.items.forEach(item => iterator(item.value));
     }
 }
