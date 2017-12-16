@@ -7,6 +7,7 @@ import { NoteWorkspaceComponent } from './workspace/workspace.component';
 import { NoteEditorService } from './editor/editor.service';
 import { NoteStoreService } from './store.service';
 import { NotePreviewComponent } from './preview/preview.component';
+import { NoteCalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { NotePreviewComponent } from './preview/preview.component';
         UIModule
     ],
     declarations: [
+        NoteCalendarComponent,
         NoteFinderComponent,
         NoteEditorComponent,
         NoteCodeEditorSnippetCreateModalComponent,
@@ -21,6 +23,7 @@ import { NotePreviewComponent } from './preview/preview.component';
         NoteWorkspaceComponent
     ],
     entryComponents: [
+        NoteCalendarComponent,
         NoteFinderComponent,
         NoteCodeEditorSnippetCreateModalComponent
     ],

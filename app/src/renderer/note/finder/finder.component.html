@@ -5,7 +5,9 @@
                     [items]="[]"></ui-toolbar>
     </header>
 
-    <div class="NoteFinder__calendar"></div>
+    <div class="NoteFinder__calendar">
+        <note-calendar></note-calendar>
+    </div>
 
     <ul class="NoteFinder__list">
         <li *ngFor="let note of noteItems | async"
