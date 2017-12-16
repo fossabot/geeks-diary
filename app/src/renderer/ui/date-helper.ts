@@ -64,6 +64,14 @@ export class DateHelper {
         return this.copy(Date.now());
     }
 
+    getFirstDateOfMonth(year: number, month: number): Date {
+        return new Date(year, month, 1);
+    }
+
+    getLastDateOfMonth(year: number, month: number): Date {
+        return new Date(year, month + 1, 0);
+    }
+
     isValidDateStr(dateStr: string): boolean {
         const date = Date.parse(dateStr);
 
@@ -96,11 +104,11 @@ export class DateHelper {
         date[`set${methodName}`](originalValue + (dir * amount));
     }
 
-    add(date: Date, amount: number, unit: DateUnit) {
+    add(date: Date, amount: number, unit: DateUnit): void {
         this.manipulate(date, DateManipulateType.ADD, amount, unit);
     }
 
-    subtract(date: Date, amount: number, unit: DateUnit) {
+    subtract(date: Date, amount: number, unit: DateUnit): void {
         this.manipulate(date, DateManipulateType.SUBTRACT, amount, unit);
     }
 
