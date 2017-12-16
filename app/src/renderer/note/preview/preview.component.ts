@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NoteBody } from '../models';
 
 
@@ -7,10 +7,6 @@ import { NoteBody } from '../models';
     templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.less']
 })
-export class NotePreviewComponent implements OnChanges {
+export class NotePreviewComponent {
     @Input() noteBody: NoteBody;
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes);
-    }
 }
