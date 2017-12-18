@@ -29,7 +29,7 @@ body {
     color: var(--color-gray-9);
 }
 
-input, blockquote, textarea {
+input, select, option, blockquote, textarea {
     font-family: "Open Sans", sans-serif;
 }
 
