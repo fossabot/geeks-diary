@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NoteStoreService } from '../store.service';
 import { NoteBody } from '../models';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { NoteBodyValueChanges } from '../editor/editor.service';
 
 
 @Component({
@@ -12,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class NoteWorkspaceComponent implements OnInit, OnDestroy {
     noteBody: NoteBody;
 
+    private noteBodySaveSource = new Subject<NoteBody>();
     private noteBodySubscription: Subscription;
 
     constructor(private storeService: NoteStoreService,
@@ -23,6 +26,8 @@ export class NoteWorkspaceComponent implements OnInit, OnDestroy {
             this.noteBody = noteBody;
             this.changeDetectorRef.detectChanges();
         });
+
+        this.storeService.registerSaveNoteBodySource(this.noteBodySaveSource);
     }
 
     ngOnDestroy(): void {
@@ -30,4 +35,10 @@ export class NoteWorkspaceComponent implements OnInit, OnDestroy {
             this.noteBodySubscription.unsubscribe();
         }
     }
+
+    changeNoteBodySnippetValue(changes: NoteBodyValueChanges): void {
+        this.noteBody.updateValue(changes.value, changes.index);
+        this.noteBodySaveSource.next(this.noteBody);
+    }
+
 }

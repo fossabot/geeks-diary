@@ -7,10 +7,17 @@ import { NoteCodeEditorSnippet } from './snippets/code-editor-snippet';
 import { Modal, ModalEventName } from '../../core/modal/modal';
 import { NoteCodeEditorSnippetCreateModalComponent } from './code-editor-snippet-create-modal.component';
 import { NoteBody, NoteBodyCodeSnippet, NoteBodySnippet, NoteBodyTextSnippet } from '../models';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 
 interface NoteEditorServiceInjection {
     renderer: Renderer2;
+}
+
+export interface NoteBodyValueChanges {
+    index: number;
+    value: string;
 }
 
 
@@ -18,6 +25,8 @@ interface NoteEditorServiceInjection {
 export class NoteEditorService {
     private _snippets = new ArrayMap<NoteEditorSnippet>();
     private _snippetEventSubscriptions = new ArrayMap<Subscription>();
+
+    private _valueChanges = new Subject<NoteBodyValueChanges>();
 
     private containerElem: HTMLElement;
     private renderer: Renderer2;
@@ -32,6 +41,10 @@ export class NoteEditorService {
 
     get snippetEventSubscriptions(): Subscription[] {
         return this._snippetEventSubscriptions.values;
+    }
+
+    get valueChanges(): Observable<NoteBodyValueChanges> {
+        return this._valueChanges.asObservable();
     }
 
     init(containerElem: HTMLElement, injection: NoteEditorServiceInjection): void {
@@ -57,6 +70,8 @@ export class NoteEditorService {
             this.insertSnippet(newSnippet, refSnippetId);
             refSnippetId = newSnippet.id;
         });
+
+        this._snippets.getAt(0).focus();
     }
 
     createSnippetInstance(noteBodySnippet: NoteBodySnippet): NoteEditorSnippet {
@@ -224,6 +239,15 @@ export class NoteEditorService {
     private handleSnippetEvent(event: NoteEditorSnippetEvent): void {
         this.ngZone.run(() => {
             switch (event.name) {
+                case NoteEditorSnippetEventName.VALUE_CHANGED:
+                    const snippetIndex = this._snippets.indexOfKey(event.targetId);
+
+                    this._valueChanges.next({
+                        index: snippetIndex,
+                        value: event.payload
+                    });
+                    break;
+
                 case NoteEditorSnippetEventName.CREATE_SNIPPET_ON_NEXT:
                     this.transposeSnippet(event.targetId);
                     break;

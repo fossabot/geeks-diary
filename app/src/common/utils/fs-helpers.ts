@@ -20,7 +20,12 @@ export const readdirAsObservable = bindNodeCallback((
 ) => fs.readdir(dirname, callback));
 
 
-export const writeFileAsObservable = bindNodeCallback(fs.writeFile, () => null);
+export const writeFileAsObservable = bindNodeCallback<void>((
+    filename: string,
+    value: string,
+    encoding: string,
+    callback: (error: Error) => void
+) => fs.writeFile(filename, value, callback));
 
 
 export const mkdirAsObservable = bindNodeCallback(fs.mkdir, () => null);

@@ -86,4 +86,14 @@ export class NoteBody {
             this.snippets[index] = snippet;
         }
     }
+
+    updateValue(value: string, index: number): void {
+        if (this.snippets[index]) {
+            this.snippets[index].value = value;
+        }
+    }
+
+    toString(): string {
+        return JSON.stringify(this.snippets);
+    }
 }

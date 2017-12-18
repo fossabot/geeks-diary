@@ -17,7 +17,9 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         super(NoteTextEditorSnippet.className, containerElem, initialValue);
 
         this.contentElem =
-            this.containerElem.querySelector(`.${NoteTextEditorSnippet.className}__content`);
+            <HTMLElement>this.containerElem.querySelector(
+                `.${NoteTextEditorSnippet.className}__content`
+            );
     }
 
     get editorOptions(): CodeMirror.EditorConfiguration {
@@ -47,6 +49,10 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
     init(): void {
         this.editor = CodeMirror(this.contentElem, this.editorOptions);
 
+        this.editor.on('change', () => {
+            this.handleValueChanges();
+        });
+
         this.editor.on('focus', () => {
             this.handleFocus(true);
         });
@@ -62,8 +68,6 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         this.contentElem.addEventListener('click', () => {
             this.focus();
         });
-
-        this.focus();
     }
 
     destroy(): void {
@@ -90,6 +94,17 @@ export class NoteTextEditorSnippet extends NoteEditorSnippet {
         doc.setCursor({
             ch: 0,
             line: doc.lastLine()
+        });
+    }
+
+    private handleValueChanges(): void {
+        const doc = this.editor.getDoc();
+        const value = doc.getValue();
+
+        this._events.next({
+            name: NoteEditorSnippetEventName.VALUE_CHANGED,
+            targetId: this.id,
+            payload: value
         });
     }
 

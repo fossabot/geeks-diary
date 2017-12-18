@@ -3,10 +3,9 @@ import {
     OnInit, Output, Renderer2, ViewChild
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { NoteEditorService } from './editor.service';
+import { NoteBodyValueChanges, NoteEditorService } from './editor.service';
 import { ToolbarItem } from '../../ui/toolbar/toolbar.component';
 import { NoteStoreService } from '../store.service';
-import { NoteBody } from '../models';
 
 
 @Component({
@@ -23,10 +22,11 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
         { id: 'note.textEditorSnippet.tools.listUl', title: 'List ul', iconName: 'list-ul' },
         { id: 'note.textEditorSnippet.tools.listOl', title: 'List ol', iconName: 'list-ol' },
     ];
-    @Output() noteBodyChanges = new EventEmitter<NoteBody>();
+    @Output() valueChanges = new EventEmitter<NoteBodyValueChanges>();
     @ViewChild('snippetContainer') snippetContainer: ElementRef;
 
     private noteBodyFromOutsideStreamSubscription: Subscription;
+    private valueChangesSubscription: Subscription;
 
     constructor(private editorService: NoteEditorService,
                 private storeService: NoteStoreService,
@@ -42,11 +42,19 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
         this.editorService.init(this.snippetContainer.nativeElement, {
             renderer: this.renderer
         });
+
+        this.valueChangesSubscription = this.editorService.valueChanges.subscribe((changes) => {
+            this.valueChanges.emit(changes);
+        });
     }
 
     ngOnDestroy(): void {
         if (this.noteBodyFromOutsideStreamSubscription) {
             this.noteBodyFromOutsideStreamSubscription.unsubscribe();
+        }
+
+        if (this.valueChangesSubscription) {
+            this.valueChangesSubscription.unsubscribe();
         }
     }
 }

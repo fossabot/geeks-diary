@@ -15,7 +15,8 @@ export enum NoteEditorSnippetEventName {
     MOVE_FOCUS_TO_PREVIOUS,
     MOVE_FOCUS_TO_NEXT,
     CREATE_SNIPPET_ON_NEXT,
-    REMOVE_THIS
+    REMOVE_THIS,
+    VALUE_CHANGED
 }
 
 

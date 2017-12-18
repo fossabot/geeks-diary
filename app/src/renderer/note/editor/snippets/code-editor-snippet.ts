@@ -19,7 +19,9 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         super(NoteCodeEditorSnippet.className, containerElem, initialValue);
 
         this.contentElem =
-            this.containerElem.querySelector(`.${NoteCodeEditorSnippet.className}__content`);
+            <HTMLElement>this.containerElem.querySelector(
+                `.${NoteCodeEditorSnippet.className}__content`
+            );
     }
 
     get fileName(): string {
@@ -155,7 +157,6 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         this.editor.addCommand(keyMod.CtrlCmd | keyCode.KEY_F, () => {}, 'alwaysTrue');
         /* tslint:enable */
 
-        this.editor.focus();
         this.renderLayout();
     }
 

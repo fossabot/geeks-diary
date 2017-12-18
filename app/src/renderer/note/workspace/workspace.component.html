@@ -3,7 +3,7 @@
 
     <div class="NoteWorkspace__content">
         <section class="NoteWorkspace__section">
-            <note-editor></note-editor>
+            <note-editor (valueChanges)="changeNoteBodySnippetValue($event)"></note-editor>
         </section>
 
         <section class="NoteWorkspace__section">

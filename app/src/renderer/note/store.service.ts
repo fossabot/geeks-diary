@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
-import { catchError, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { NoteBody, NoteBodySnippet, NoteItem, NoteMetadata } from './models';
 import { environment } from '../../config/environment';
-import { readdirAsObservable, readFileAsObservable } from '../../common/utils/fs-helpers';
+import { readdirAsObservable, readFileAsObservable, writeFileAsObservable } from '../../common/utils/fs-helpers';
 
 
 @Injectable()
@@ -19,6 +19,8 @@ export class NoteStoreService {
     private noteItemsStream = new BehaviorSubject<NoteItem[]>([]);
     private noteItemSelectionStream = new BehaviorSubject<NoteItem>(null);
     private noteBodyStream = new Subject<NoteBody>();
+    private noteBodySaveStream = new Subject<void>();
+    private _errors = new Subject<Error | any>();
 
     constructor() {
         this.pullNoteItems();
@@ -35,6 +37,10 @@ export class NoteStoreService {
 
     get noteBody(): Observable<NoteBody> {
         return this.noteBodyStream.asObservable();
+    }
+
+    get errors(): Observable<Error | any> {
+        return this._errors.asObservable();
     }
 
     pullNoteItems() {
@@ -83,6 +89,24 @@ export class NoteStoreService {
         );
 
         const subscription = stream.subscribe(this.noteBodyStream);
+        this.subscriptions.push(subscription);
+
+        return subscription;
+    }
+
+    registerSaveNoteBodySource(noteBodySource: Observable<NoteBody>,
+                               noteItemSource: Observable<NoteItem> = this.noteItemSelection): Subscription {
+        const stream = noteBodySource.pipe(
+            switchMap(noteBody => noteItemSource, (noteBody, noteItem) => ({ noteItem, noteBody })),
+            switchMap(({ noteItem, noteBody }) => this.saveNoteBody(noteItem, noteBody)),
+            debounceTime(500),
+            catchError((err) => {
+                this._errors.next(err);
+                return Observable.throw(err);
+            })
+        );
+
+        const subscription = stream.subscribe(this.noteBodySaveStream);
         this.subscriptions.push(subscription);
 
         return subscription;
@@ -150,4 +174,13 @@ export class NoteStoreService {
         );
     }
 
+    private saveNoteBody(note: NoteItem, noteBody: NoteBody): Observable<void> {
+        const noteItemPath = path.resolve(
+            this.noteStorePath,
+            note.fileName,
+            'body.json'
+        );
+
+        return writeFileAsObservable(noteItemPath, noteBody.toString(), 'utf8');
+    }
 }
