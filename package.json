@@ -18,6 +18,7 @@
         "@ngtools/webpack": "^1.8.0",
         "@types/codemirror": "0.0.51",
         "@types/js-search": "^1.4.0",
+        "@types/markdown-it": "0.0.4",
         "@types/node": "^8.0.50",
         "angular2-template-loader": "^0.6.2",
         "awesome-typescript-loader": "^3.3.0",
@@ -31,7 +32,7 @@
         "less-loader": "^4.0.5",
         "postcss-loader": "^2.0.8",
         "tslint": "^5.8.0",
-        "typescript": "^2.6.1",
+        "typescript": "^2.4.2",
         "webpack": "^3.8.1"
     },
     "dependencies": {
@@ -48,6 +49,7 @@
         "js-search": "^1.4.2",
         "line-awesome": "github:icons8/line-awesome",
         "lodash.camelcase": "^4.3.0",
+        "markdown-it": "^8.4.0",
         "monaco-editor": "^0.10.1",
         "remarkable": "^1.7.1",
         "rxjs": "^5.5.2",

@@ -1,3 +1,17 @@
 <div class="NotePreview">
-    <span>{{noteBody | json}}</span>
+    <div class="NotePreview__container">
+        <div *ngFor="let snippet of noteBody?.snippets"
+             class="NotePreview__content">
+            <div [ngSwitch]="snippet.type" class="NotePreview__snippet">
+                <div *ngSwitchCase="'text'"
+                     [innerHTML]="parseMarkdown(snippet.value)"
+                     class="NoteTextPreview">
+                </div>
+
+                <div *ngSwitchCase="'code'" class="NoteCodePreview">
+                    {{snippet.value}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
