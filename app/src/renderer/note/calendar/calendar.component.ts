@@ -23,7 +23,6 @@ export class NoteCalendarComponent implements OnInit {
         const now = this.dateHelper.now();
 
         this.calendarTable.render(now.getFullYear(), now.getMonth());
-        console.log(this.calendarTable);
     }
 
     navigateMonth(indent: number): void {
