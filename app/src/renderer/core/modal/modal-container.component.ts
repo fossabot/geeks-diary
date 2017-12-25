@@ -48,7 +48,6 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     }
 
     private openModal(component: Type<ModalHost>, inputs: any = null) {
-        console.log(component);
         const factory = this.componentFactoryResolver.resolveComponentFactory(component);
         this.modalComponentRef = this.modalHostView.createComponent(factory);
 
