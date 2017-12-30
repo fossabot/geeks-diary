@@ -1,14 +1,12 @@
-import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import {
+    AfterContentInit, Component, ContentChildren, ElementRef, OnDestroy, QueryList, Renderer2,
+    ViewChild
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DOWN_ARROW, TAB, UP_ARROW } from '../../../common/key-codes';
 import { Observable } from 'rxjs/Observable';
-
-
-export interface OptionItem {
-    id?: any;
-    name: string;
-    value: any;
-}
+import { OptionItemDirective } from './option-item.directive';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -19,21 +17,26 @@ export interface OptionItem {
 })
 export class AutocompleteComponent implements OnDestroy {
     @ViewChild('panel') panel: ElementRef;
-    @Input() options: OptionItem[] = [];
+    @ContentChildren(OptionItemDirective) options: QueryList<OptionItemDirective>;
 
-    private _itemSelections = new Subject<OptionItem>();
     activeItemIndex = -1;
-    activeItem = null;
+    activeItem: OptionItemDirective = null;
     tabOut = new Subject<void>();
     showPanel = false;
     _isOpen = false;
+
+    private _itemSelections = new Subject<OptionItemDirective>();
 
     get isOpen(): boolean {
         return this._isOpen && this.showPanel;
     }
 
-    get itemSelections(): Observable<OptionItem> {
+    get itemSelections(): Observable<OptionItemDirective> {
         return this._itemSelections.asObservable();
+    }
+
+    constructor(private elementRef: ElementRef,
+                private renderer: Renderer2) {
     }
 
     ngOnDestroy() {
@@ -55,34 +58,40 @@ export class AutocompleteComponent implements OnDestroy {
         }
     }
 
-    isItemActivate(item: OptionItem) {
-        return this.activeItem === item;
-    }
-
-    setVisibility() {
+    setVisibility(triggerElem?: ElementRef) {
         this.showPanel = !!this.options.length;
+
+        if (this.showPanel && triggerElem) {
+            const position = triggerElem.nativeElement.getBoundingClientRect();
+
+            this.renderer.setStyle(this.elementRef.nativeElement, 'left', `${position.left}px`);
+            this.renderer.setStyle(this.elementRef.nativeElement, 'top', `${position.bottom}px`);
+        }
     }
 
     setActiveItem(index: number) {
         if (this.activeItem) {
+            this.activeItem._isActivated = false;
             this.activeItem = null;
         }
 
         this.activeItemIndex = index;
-        this.activeItem = this.options[this.activeItemIndex];
+        this.activeItem = this.options.find((i, idx) => idx === index);
+
+        if (this.activeItem) {
+            this.activeItem._isActivated = true;
+        }
     }
 
     setNextItemActive() {
         if (this.activeItemIndex < 0) {
             this.setActiveItem(0);
         } else {
-            let nextIndex = this.activeItemIndex + 1;
+            const nextIndex = this.activeItemIndex + 1;
 
-            if (nextIndex > this.options.length - 1) {
-                nextIndex--;
+            if (nextIndex < this.options.length) {
+                this.setActiveItem(nextIndex);
             }
-
-            this.setActiveItem(nextIndex);
         }
     }
 
@@ -115,21 +124,21 @@ export class AutocompleteComponent implements OnDestroy {
         }
     }
 
-    selectItem(item: OptionItem) {
-        this._itemSelections.next(item);
+    selectOption(option: OptionItemDirective) {
+        this._itemSelections.next(option);
     }
 
     scrollToActiveItem() {
         const activeOptionIndex = this.activeItemIndex || 0;
-        const optionOffset = activeOptionIndex * 32;
+        const optionOffset = activeOptionIndex * 37;
         const panelTop = this.getScrollTop();
 
         if (optionOffset < panelTop) {
             // Scroll up to reveal selected option scrolled above the panel top
             this.setScrollTop(optionOffset);
-        } else if (optionOffset + 32 > panelTop + 300) {
+        } else if (optionOffset + 37 > panelTop + 300) {
             // Scroll down to reveal selected option scrolled below the panel bottom
-            const newScrollTop = optionOffset - 300 + 32;
+            const newScrollTop = optionOffset - 300 + 37;
             this.setScrollTop(Math.max(0, newScrollTop));
         }
     }

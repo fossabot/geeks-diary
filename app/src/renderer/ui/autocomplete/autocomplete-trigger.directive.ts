@@ -1,10 +1,12 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AutocompleteComponent, OptionItem } from './autocomplete.component';
+import { AutocompleteComponent } from './autocomplete.component';
 import { Subscription } from 'rxjs/Subscription';
 import { DOWN_ARROW, ENTER, ESCAPE, TAB, UP_ARROW } from '../../../common/key-codes';
+import { OptionItem, OptionItemDirective } from './option-item.directive';
 
 
+// noinspection JSUnusedGlobalSymbols
 export const UI_AUTOCOMPLETE_TRIGGER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => AutocompleteTriggerDirective),
@@ -18,6 +20,7 @@ export const UI_AUTOCOMPLETE_TRIGGER_VALUE_ACCESSOR = {
 })
 export class AutocompleteTriggerDirective implements ControlValueAccessor {
     @Input('uiAutocomplete') uiAutocomplete: AutocompleteComponent;
+    @Output() selectValue = new EventEmitter<OptionItem>();
 
     private closingActionsSubscription: Subscription;
     private _panelOpen = false;
@@ -31,7 +34,7 @@ export class AutocompleteTriggerDirective implements ControlValueAccessor {
         return this._panelOpen && this.uiAutocomplete.showPanel;
     }
 
-    get activeItem(): OptionItem {
+    get activeItem(): OptionItemDirective {
         if (this.uiAutocomplete) {
             return this.uiAutocomplete.activeItem;
         }
@@ -40,21 +43,25 @@ export class AutocompleteTriggerDirective implements ControlValueAccessor {
     }
 
     openPanel() {
-        this.uiAutocomplete.setVisibility();
+        this.uiAutocomplete.setVisibility(this.elementRef);
         this._panelOpen = true;
         this.uiAutocomplete._isOpen = true;
 
+        if (this.closingActionsSubscription) {
+            return;
+        }
+
         this.closingActionsSubscription = this.uiAutocomplete.itemSelections.subscribe((option) => {
-            this.elementRef.nativeElement.value = option.value;
-            this._onChange(option.value);
+            this.elementRef.nativeElement.value = option.item;
+            this._onChange(option.item.inputValue);
             this.elementRef.nativeElement.focus();
             this.closePanel();
+            this.selectValue.emit(option.item);
         });
     }
 
     closePanel() {
         this.uiAutocomplete.resetActiveItem();
-        this.uiAutocomplete.setVisibility();
 
         if (this._panelOpen) {
             this.uiAutocomplete._isOpen = false;
@@ -85,7 +92,7 @@ export class AutocompleteTriggerDirective implements ControlValueAccessor {
             this.closePanel();
             event.stopPropagation();
         } else if (keyCode === ENTER && this.activeItem && this.panelOpen) {
-            this.uiAutocomplete.selectItem(this.activeItem);
+            this.uiAutocomplete.selectOption(this.activeItem);
             this.uiAutocomplete.resetActiveItem();
             event.preventDefault();
         } else {

@@ -1,12 +1,5 @@
 <div [class.show]="isOpen" role="listbox" class="Autocomplete" #panel>
-    <ul class="Autocomplete__list">
-        <li *ngFor="let option of options">
-            <a (click)="selectItem(option)"
-               [attr.value]="option.value"
-               [class.activate]="isItemActivate(option)"
-               class="Autocomplete__item">
-                {{option.name}}
-            </a>
-        </li>
-    </ul>
+    <div class="Autocomplete__list">
+        <ng-content></ng-content>
+    </div>
 </div>
