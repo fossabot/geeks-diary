@@ -1,0 +1,28 @@
+<div class="CodeTechStackInput">
+    <label class="CodeTechStackInput__label">Stacks</label>
+    <div class="CodeTechStackInput__content">
+        <div class="CodeTechStackInput__stacks">
+            <span *ngFor="let stack of stacks" class="CodeTechStackInput__stackItem">
+                <code-tech-stack-item
+                        [codeTechStack]="stack"
+                        [canDiscardOnHover]="true"
+                        (discard)="removeStack($event)"></code-tech-stack-item>
+            </span>
+        </div>
+
+        <div class="CodeTechStackInput__inputField">
+            <input id="stackInput" type="text" title="Insert stack" (selectValue)="selectStack($event)"
+                   placeholder="Input tech stack" [uiAutocomplete]="auto" [formControl]="stackFormControl">
+
+            <ui-autocomplete #auto="uiAutocomplete">
+                <div *ngFor="let item of stackSearchResult" uiOptionItem [item]="item"
+                     class="CodeTechStackInput__searchItem">
+                    <code-tech-stack-item [codeTechStack]="item.value"
+                                          [noBorder]="true"
+                                          [noBackground]="true"></code-tech-stack-item>
+                    <span>{{item.name}}</span>
+                </div>
+            </ui-autocomplete>
+        </div>
+    </div>
+</div>

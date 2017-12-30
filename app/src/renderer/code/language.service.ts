@@ -87,7 +87,7 @@ export class CodeLanguageService {
         return quires.pipe(
             distinctUntilChanged(),
             debounceTime(50),
-            switchMap(query => this.languages, (query, languages) => ({ languages, query })),
+            switchMap(() => this.languages, (query, languages) => ({ languages, query })),
             map(({ languages, query }) => {
                 return this.rawSearch(languages, query);
             })
@@ -114,7 +114,7 @@ export class CodeLanguageService {
         result.sort((a, b) => {
             if (a.score > b.score) {
                 return -1;
-            } else if (a.score > b.score) {
+            } else if (a.score < b.score) {
                 return 1;
             }
 

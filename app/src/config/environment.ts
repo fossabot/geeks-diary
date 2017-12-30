@@ -21,6 +21,10 @@ class Environment {
         this.config = config;
     }
 
+    getAppPath(): string {
+        return app.getAppPath();
+    }
+
     getPath(name: string): string {
         return app.getPath(name);
     }

@@ -4,9 +4,13 @@
 @import "../vendors/line-awesome/css/line-awesome-font-awesome.min.css";
 @import "../vendors/line-awesome/css/line-awesome.min.css";
 
+@import "../vendors/devicon/devicon.min.css";
+
+@import "./codemirror.css";
+
 @import "./color.css";
 @import "./unit.css";
-@import "./note-editor-snippet.css";
+@import "./hljs.css";
 
 
 *, *:before, *:after {
@@ -31,6 +35,10 @@ body {
 
 input, select, option, blockquote, textarea {
     font-family: "Open Sans", sans-serif;
+}
+
+code {
+    font-family: Menlo, Monaco, "Courier New", monospace;
 }
 
 ::selection {

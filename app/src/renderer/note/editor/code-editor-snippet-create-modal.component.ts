@@ -2,9 +2,9 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, 
 import { ModalHost } from '../../core/modal/modal-host';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Modal } from '../../core/modal/modal';
-import { OptionItem } from '../../ui/autocomplete/autocomplete.component';
 import { Subscription } from 'rxjs/Subscription';
 import { CodeLanguageService } from '../../code/language.service';
+import { OptionItem } from '../../ui/autocomplete/option-item.directive';
 
 
 @Component({
@@ -49,7 +49,8 @@ export class NoteCodeEditorSnippetCreateModalComponent implements ModalHost, OnI
                 this.languageSearchResult = result.map(r => ({
                     id: r.id,
                     name: r.id,
-                    value: r.id
+                    value: r.id,
+                    inputValue: r.id
                 }));
             });
     }
@@ -61,7 +62,7 @@ export class NoteCodeEditorSnippetCreateModalComponent implements ModalHost, OnI
     }
 
     ngAfterViewInit() {
-        setTimeout(() => this.elementRef.nativeElement.querySelector('#fileNameInput').focus());
+        setTimeout(() => this.elementRef.nativeElement.querySelector('#languageInput').focus());
     }
 
     resolve() {

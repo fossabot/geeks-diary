@@ -1,0 +1,82 @@
+@import "../../themes";
+
+
+.CodeTechStackInput {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    &__label {
+        display: inline-block;
+        height: var(--box-small-size);
+        margin-right: var(--space-regular-size);
+        padding: 0 var(--space-regular-size);
+        border-radius: 10px;
+        background-color: var(--color-gray-7);
+        color: var(--color-white);
+        font-size: var(--text-regular-size);
+        line-height: var(--box-small-size);
+        user-select: none;
+    }
+
+    &__content {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        height: 100%;
+        overflow-x: scroll;
+    }
+
+    &__stacks {
+        display: inline-flex;
+    }
+
+    &__stackItem {
+        display: inline-block;
+        margin-right: var(--space-small-size);
+    }
+
+    &__inputField {
+        position: relative;
+        z-index: 20;
+        overflow: visible;
+
+        & > input {
+            display: inline-block;
+            width: 100%;
+            min-width: 100px;
+            margin: 0;
+            padding: var(--space-small-size) 0 var(--space-small-size) var(--space-small-size);
+            border: none;
+            outline: 0;
+            font-size: var(--text-regular-size);
+            line-height: var(--lineHeight-regular-size);
+            color: var(--color-gray-9);
+            background: none;
+
+            &::placeholder {
+                color: var(--color-gray-5);
+            }
+        }
+    }
+
+    &__searchItem {
+        display: flex;
+        align-items: center;
+        padding: var(--space-small-size);
+        border-bottom: 1px solid @color-border;
+
+        & > span {
+            flex: 1;
+            display: inline-block;
+            padding: 0 var(--space-small-size);
+            font-size: var(--text-regular-size);
+            line-height: var(--lineHeight-regular-size);
+            color: var(--color-gray-9);
+        }
+
+        &.activated {
+            background-color: var(--color-teal-0);
+        }
+    }
+}

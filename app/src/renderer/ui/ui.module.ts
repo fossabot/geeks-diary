@@ -9,6 +9,12 @@ import { InputWrapperComponent } from './input/input-wrapper.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CALENDAR_TABLE_PROVIDER } from './calendar/calendar-table';
 import { DateHelper } from './date-helper';
+import { FormFieldComponent } from './form/form-field.component';
+import { FormErrorMessageComponent } from './form/form-error-message.component';
+import { PrefixDirective } from './form/prefix.directive';
+import { SuffixDirective } from './form/suffix.directive';
+import { InputDirective } from './form/input.directive';
+import { OptionItemDirective } from './autocomplete/option-item.directive';
 
 
 @NgModule({
@@ -22,7 +28,13 @@ import { DateHelper } from './date-helper';
         ToolbarComponent,
         InputWrapperComponent,
         AutocompleteComponent,
-        AutocompleteTriggerDirective
+        AutocompleteTriggerDirective,
+        OptionItemDirective,
+        FormFieldComponent,
+        FormErrorMessageComponent,
+        PrefixDirective,
+        SuffixDirective,
+        InputDirective
     ],
     providers: [
         DatePipe,
@@ -37,7 +49,13 @@ import { DateHelper } from './date-helper';
         ToolbarComponent,
         InputWrapperComponent,
         AutocompleteComponent,
-        AutocompleteTriggerDirective
+        AutocompleteTriggerDirective,
+        OptionItemDirective,
+        FormFieldComponent,
+        FormErrorMessageComponent,
+        PrefixDirective,
+        SuffixDirective,
+        InputDirective
     ]
 })
 export class UIModule {

@@ -29,3 +29,10 @@ mkdir -p app/assets/vendors/monaco-editor/
 
 cp -R node_modules/monaco-editor/min/vs/ app/assets/vendors/monaco-editor/vs/
 cp node_modules/monaco-editor/monaco.d.ts app/assets/vendors/monaco-editor/monaco.d.ts
+
+
+# Copy devicon
+mkdir -p app/assets/vendors/devicon/
+cp -R node_modules/devicon/icons/ app/assets/vendors/devicon/
+cp node_modules/devicon/devicon.json app/assets/vendors/devicon/devicon.json
+cp node_modules/devicon/devicon.min.css app/assets/vendors/devicon/devicon.min.css

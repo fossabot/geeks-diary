@@ -137,6 +137,14 @@ export class NoteCodeEditorSnippet extends NoteEditorSnippet {
         });
 
         this.editor.onDidChangeModelContent(() => {
+            const value = this.editor.getModel().getValue();
+
+            this._events.next({
+                name: NoteEditorSnippetEventName.VALUE_CHANGED,
+                targetId: this.id,
+                payload: value
+            });
+
             this.renderLayout();
         });
 

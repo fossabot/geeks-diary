@@ -1,0 +1,54 @@
+@import "../../themes";
+
+
+.NoteHeader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--container-regular-size);
+    border-bottom: 1px solid @color-border;
+    position: relative;
+    overflow: visible;
+
+    &__title {
+        flex: 1;
+        display: inline-flex;
+        padding: 0 var(--space-regular-size);
+        cursor: default;
+    }
+
+    &__noteTitle {
+        height: var(--lineHeight-medium-size);
+        margin: 0 var(--space-regular-size) 0 0;
+        font-size: var(--text-medium-size);
+        font-weight: bold;
+        line-height: var(--lineHeight-medium-size);
+        color: var(--color-gray-9);
+    }
+
+    &__noteCreatedAt {
+        padding-top: 2px;
+        height: var(--lineHeight-small-size);
+        font-size: var(--text-small-size);
+        font-weight: normal;
+        font-style: italic;
+        line-height: var(--lineHeight-medium-size);
+        color: var(--color-gray-6);
+    }
+
+    &__noteTechStacks {
+        padding: 0 var(--space-regular-size);
+        width: 30%;
+        max-width: 400px;
+        min-width: 300px;
+        height: 100%;
+        background-color: var(--color-gray-0);
+        border-left: 1px solid @color-border;
+        border-right: 1px solid @color-border;
+    }
+
+    &__tools {
+        padding-left: var(--space-small-size);
+        padding-right: var(--space-regular-size);
+    }
+}

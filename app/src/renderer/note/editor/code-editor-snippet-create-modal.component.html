@@ -9,27 +9,23 @@
     <section>
         <form [formGroup]="creationForm" (ngSubmit)="submit($event)"
               class="NoteCodeEditorSnippetCreateModal__creationForm">
-            <label for="fileNameInput">File name</label>
-            <ui-input-wrapper>
-                <input id="fileNameInput" formControlName="fileName" type="text" autofocus/>
-                <span *ngIf="fileNameControl.errors?.required && fileNameControl.touched"
-                      #fileNameInput class="NoteCodeEditorSnippetCreateModal__errorMessage">
-                    File name is required
-                </span>
-            </ui-input-wrapper>
-
-            <label for="languageInput">Language</label>
-            <ui-input-wrapper>
-                <input id="languageInput" formControlName="language"
-                       [uiAutocomplete]="auto" type="text"/>
-                <span *ngIf="languageControl.errors?.required && languageControl.touched"
-                      #languageInput class="NoteCodeEditorSnippetCreateModal__errorMessage">
+            <ui-form-field>
+                <label for="languageInput">Language</label>
+                <input id="languageInput" uiInput #languageInput formControlName="language"
+                       [uiAutocomplete]="auto" type="text" autofocus/>
+                <ui-autocomplete #auto="uiAutocomplete"></ui-autocomplete>
+                <ui-form-error-message errorName="required">
                     Language is required
-                </span>
+                </ui-form-error-message>
+            </ui-form-field>
 
-                <ui-autocomplete #auto="uiAutocomplete"
-                                 [options]="languageSearchResult"></ui-autocomplete>
-            </ui-input-wrapper>
+            <ui-form-field>
+                <label for="fileNameInput">File name</label>
+                <input id="fileNameInput" uiInput #fileNameInput formControlName="fileName" type="text"/>
+                <ui-form-error-message errorName="required">
+                    File name is required
+                </ui-form-error-message>
+            </ui-form-field>
 
             <footer class="NoteCodeEditorSnippetCreateModal__submit">
                 <ui-button title="Cancel">Cancel</ui-button>

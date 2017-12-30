@@ -1,0 +1,14 @@
+<!-- TODO: Enhance title showing UI using with tooltip -->
+<a [class.noBorder]="noBorder"
+   [class.noBackground]="noBackground"
+   [class.canDiscardOnHover]="canDiscardOnHover"
+   [attr.title]="codeTechStack.name"
+   class="CodeTechStackItem">
+    <span class="CodeTechStackItem__icon">
+        <img alt="Tech stack icon" [src]="iconFilePath">
+    </span>
+
+    <button (click)="discardThis()" class="CodeTechStackItem__closeOnHoverButton">
+        <ui-icon name="times" color="white" size="regular"></ui-icon>
+    </button>
+</a>
