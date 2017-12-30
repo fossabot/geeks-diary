@@ -8,8 +8,9 @@
                      class="NoteTextPreview">
                 </div>
 
-                <div *ngSwitchCase="'code'" class="NoteCodePreview">
-                    {{snippet.value}}
+                <div *ngSwitchCase="'code'"
+                     [innerHTML]="parseCode(snippet.language, snippet.value)"
+                     class="NoteCodePreview">
                 </div>
             </div>
         </div>

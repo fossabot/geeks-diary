@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NoteStoreService } from '../store.service';
-import { NoteBody } from '../models';
+import { NoteBody, NoteBodySnippet, NoteItem } from '../models';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { NoteBodyValueChanges } from '../editor/editor.service';
@@ -12,9 +12,11 @@ import { NoteBodyValueChanges } from '../editor/editor.service';
     styleUrls: ['./workspace.component.less']
 })
 export class NoteWorkspaceComponent implements OnInit, OnDestroy {
+    selectedNoteItem: NoteItem;
     noteBody: NoteBody;
 
     private noteBodySaveSource = new Subject<NoteBody>();
+    private noteItemSelectionSubscription: Subscription;
     private noteBodySubscription: Subscription;
 
     constructor(private storeService: NoteStoreService,
@@ -22,6 +24,11 @@ export class NoteWorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.noteItemSelectionSubscription = this.storeService.noteItemSelection.subscribe((noteItem) => {
+            this.selectedNoteItem = noteItem;
+            this.changeDetectorRef.detectChanges();
+        });
+
         this.noteBodySubscription = this.storeService.noteBody.subscribe((noteBody) => {
             this.noteBody = noteBody;
             this.changeDetectorRef.detectChanges();
@@ -31,9 +38,16 @@ export class NoteWorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        if (this.noteItemSelectionSubscription) {
+            this.noteItemSelectionSubscription.unsubscribe();
+        }
+
         if (this.noteBodySubscription) {
             this.noteBodySubscription.unsubscribe();
         }
+    }
+
+    createNewNoteBodySnippet(newSnippet: NoteBodySnippet, refIndex?: number): void {
     }
 
     changeNoteBodySnippetValue(changes: NoteBodyValueChanges): void {

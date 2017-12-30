@@ -31,6 +31,8 @@ export class NoteEditorService {
     private containerElem: HTMLElement;
     private renderer: Renderer2;
 
+    private _initialized = false;
+
     constructor(private ngZone: NgZone,
                 private modal: Modal) {
     }
@@ -47,9 +49,15 @@ export class NoteEditorService {
         return this._valueChanges.asObservable();
     }
 
+    get initialized(): boolean {
+        return this._initialized;
+    }
+
     init(containerElem: HTMLElement, injection: NoteEditorServiceInjection): void {
         this.containerElem = containerElem;
         this.renderer = injection.renderer;
+
+        this._initialized = true;
     }
 
     clear(): void {

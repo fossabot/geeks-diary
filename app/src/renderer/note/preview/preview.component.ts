@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NoteBody } from '../models';
 import * as MarkdownIt from 'markdown-it';
@@ -22,7 +22,8 @@ const md = new MarkdownIt({
 @Component({
     selector: 'note-preview',
     templateUrl: './preview.component.html',
-    styleUrls: ['./preview.component.less']
+    styleUrls: ['./preview.component.less'],
+    encapsulation: ViewEncapsulation.None
 })
 export class NotePreviewComponent {
     @Input() noteBody: NoteBody;
@@ -32,5 +33,11 @@ export class NotePreviewComponent {
 
     parseMarkdown(value: string): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(md.render(value));
+    }
+
+    parseCode(language: string, value: string): SafeHtml {
+        const code = `\`\`\`${language}\n${value}\n\`\`\`\``;
+
+        return this.sanitizer.bypassSecurityTrustHtml(md.render(code));
     }
 }

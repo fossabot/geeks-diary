@@ -1,19 +1,20 @@
 import {
-    Component, ElementRef, EventEmitter, OnDestroy,
-    OnInit, Output, Renderer2, ViewChild
+    Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy,
+    OnInit, Output, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { NoteBodyValueChanges, NoteEditorService } from './editor.service';
 import { ToolbarItem } from '../../ui/toolbar/toolbar.component';
-import { NoteStoreService } from '../store.service';
+import { NoteBody, NoteBodySnippet } from '../models';
 
 
 @Component({
     selector: 'note-editor',
     templateUrl: './editor.component.html',
-    styleUrls: ['./editor.component.less']
+    styleUrls: ['./editor.component.less'],
+    encapsulation: ViewEncapsulation.None
 })
-export class NoteEditorComponent implements OnInit, OnDestroy {
+export class NoteEditorComponent implements OnInit, OnChanges, OnDestroy {
     textEditTools: ToolbarItem[] = [
         { id: 'note.textEditorSnippet.tools.header', title: 'Header', iconName: 'header' },
         { id: 'note.textEditorSnippet.tools.bold', title: 'Bold', iconName: 'bold' },
@@ -22,30 +23,34 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
         { id: 'note.textEditorSnippet.tools.listUl', title: 'List ul', iconName: 'list-ul' },
         { id: 'note.textEditorSnippet.tools.listOl', title: 'List ol', iconName: 'list-ol' },
     ];
-    @Output() valueChanges = new EventEmitter<NoteBodyValueChanges>();
+    @Input() noteBody: NoteBody;
+    @Output() noteBodySnippetCreations = new EventEmitter<NoteBodySnippet>();
+    @Output() bodyValueChanges = new EventEmitter<NoteBodyValueChanges>();
     @ViewChild('snippetContainer') snippetContainer: ElementRef;
 
     private noteBodyFromOutsideStreamSubscription: Subscription;
     private valueChangesSubscription: Subscription;
 
     constructor(private editorService: NoteEditorService,
-                private storeService: NoteStoreService,
                 private renderer: Renderer2) {
     }
 
     ngOnInit(): void {
-        this.noteBodyFromOutsideStreamSubscription =
-            this.storeService.noteBody.subscribe((noteBody) => {
-                this.editorService.parseNoteBody(noteBody);
-            });
-
         this.editorService.init(this.snippetContainer.nativeElement, {
             renderer: this.renderer
         });
 
         this.valueChangesSubscription = this.editorService.valueChanges.subscribe((changes) => {
-            this.valueChanges.emit(changes);
+            this.bodyValueChanges.emit(changes);
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes);
+
+        if (this.editorService.initialized && changes.noteBody) {
+            this.editorService.parseNoteBody(this.noteBody);
+        }
     }
 
     ngOnDestroy(): void {

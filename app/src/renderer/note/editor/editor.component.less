@@ -31,3 +31,98 @@
         padding: var(--space-big-size);
     }
 }
+
+
+.NoteEditorSnippet {
+    display: block;
+    width: 100%;
+
+    &__content {
+        cursor: text;
+    }
+}
+
+
+.NoteTextEditorSnippet {
+    overflow: hidden;
+    padding: var(--space-regular-size);
+
+    &__content {
+        min-height: 21px;
+        color: var(--color-gray-9);
+
+        & .mtk1 {
+            color: var(--color-gray-9);
+        }
+
+        & .mtk6, .mtk13 {
+            font-weight: bold !important;
+            color: var(--color-blue-5) !important;
+        }
+
+        & .mtk8 {
+            color: var(--color-teal-5) !important;
+        }
+
+        & .mtk20 {
+            color: var(--color-cyan-5) !important;
+        }
+
+        & .mtk23 {
+            color: var(--color-gray-5) !important;
+        }
+    }
+
+    &--focused {
+        border-radius: 5px;
+        border: 1px solid var(--color-gray-3);
+        padding: calc(~"var(--space-regular-size) - 1px");
+    }
+}
+
+
+.NoteCodeEditorSnippet {
+    padding: var(--space-big-size) 0;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--space-regular-size);
+        width: 100%;
+        height: var(--box-regular-size);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    &__fileName {
+        display: inline-block;
+        margin: 0;
+        font-size: var(--text-regular-size);
+        line-height: var(--lineHeight-regular-size);
+        color: var(--color-white);
+    }
+
+    &__content {
+        border-left: 1px solid;
+        border-bottom: 1px solid;
+        border-right: 1px solid;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        & .monaco-editor {
+            background-color: transparent !important;
+
+            & .margin {
+                background-color: transparent !important;
+            }
+        }
+
+        & .monaco-scrollable-element {
+            border-radius: 5px;
+        }
+
+        & .mtk1 {
+            color: var(--color-gray-9);
+        }
+    }
+}

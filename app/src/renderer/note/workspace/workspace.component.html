@@ -1,9 +1,14 @@
 <div class="NoteWorkspace">
-    <header class="NoteWorkspace__header"></header>
+    <header class="NoteWorkspace__header">
+        <note-header></note-header>
+    </header>
 
     <div class="NoteWorkspace__content">
         <section class="NoteWorkspace__section">
-            <note-editor (valueChanges)="changeNoteBodySnippetValue($event)"></note-editor>
+            <note-editor
+                    [noteBody]="noteBody"
+                    (noteBodySnippetCreations)="createNewNoteBodySnippet()"
+                    (bodyValueChanges)="changeNoteBodySnippetValue($event)"></note-editor>
         </section>
 
         <section class="NoteWorkspace__section">

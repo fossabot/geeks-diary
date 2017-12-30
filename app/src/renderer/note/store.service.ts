@@ -13,7 +13,7 @@ import { readdirAsObservable, readFileAsObservable, writeFileAsObservable } from
 
 @Injectable()
 export class NoteStoreService {
-    private noteStorePath = path.resolve(environment.getPath('userData'), 'notes/');
+    readonly noteStorePath = path.resolve(environment.getPath('userData'), 'notes/');
     private subscriptions: Subscription[] = [];
 
     private noteItemsStream = new BehaviorSubject<NoteItem[]>([]);
@@ -43,7 +43,7 @@ export class NoteStoreService {
         return this._errors.asObservable();
     }
 
-    pullNoteItems() {
+    pullNoteItems(): void {
         const instanceObservable = Observable.create((observer) => {
             observer.next();
             observer.complete();
@@ -97,7 +97,7 @@ export class NoteStoreService {
     registerSaveNoteBodySource(noteBodySource: Observable<NoteBody>,
                                noteItemSource: Observable<NoteItem> = this.noteItemSelection): Subscription {
         const stream = noteBodySource.pipe(
-            switchMap(noteBody => noteItemSource, (noteBody, noteItem) => ({ noteItem, noteBody })),
+            switchMap(() => noteItemSource, (noteBody, noteItem) => ({ noteItem, noteBody })),
             switchMap(({ noteItem, noteBody }) => this.saveNoteBody(noteItem, noteBody)),
             debounceTime(500),
             catchError((err) => {
@@ -112,7 +112,7 @@ export class NoteStoreService {
         return subscription;
     }
 
-    unsubscribe(subscription: Subscription) {
+    unsubscribe(subscription: Subscription): void {
         const index = this.subscriptions.findIndex(s => s === subscription);
 
         if (index !== -1) {
