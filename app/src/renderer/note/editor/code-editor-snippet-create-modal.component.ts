@@ -66,7 +66,7 @@ export class NoteCodeEditorSnippetCreateModalComponent implements ModalHost, OnI
     }
 
     resolve() {
-        this.modal.resolve(this.creationForm.value);
+        this.modal.close(this.creationForm.value);
     }
 
     close() {

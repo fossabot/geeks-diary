@@ -1,5 +1,7 @@
 <div [class.opened]="opened" class="ModalContainer">
-    <div class="ModalContainer__host">
-        <div role="dialog" #modalHost></div>
+    <div [@flyInFromBottom]="state"
+         (@flyInFromBottom.done)="onAnimationDone($event)"
+         class="ModalContainer__host">
+        <div #attachmentPlace role="dialog"></div>
     </div>
 </div>

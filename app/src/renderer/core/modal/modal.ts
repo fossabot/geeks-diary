@@ -1,92 +1,98 @@
 import { Injectable, Type } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { ModalHost } from './modal-host';
 
 
-export enum ModalEventName {
-    OPEN,
-    CLOSE,
-    RESOLVE
+export type ModalActionName = 'open' | 'close';
+
+export abstract class ModalHost {
+    abstract inputs: any;
+    abstract close(): void;
+    abstract resolve(): void;
 }
 
-export class ModalEvent {
-    constructor(public name: ModalEventName, public payload?: any) {}
+export class ModalOutlet {
+    constructor(public component: Type<ModalHost>, public inputs: any = null) {
+    }
 }
 
-export interface ModalRef {
-    id: string;
-    resolves
-        : Observable<ModalEvent>;
+export class ModalRef<R = any> {
+    _afterOpen = new Subject<void>();
+    _afterClosed = new Subject<R | undefined>();
+    _beforeClose = new Subject<R | undefined>();
+
+    constructor(public _outlet: ModalOutlet) {
+    }
+
+    get afterOpen(): Observable<any> {
+        return this._afterOpen.asObservable();
+    }
+
+    get afterClosed(): Observable<any> {
+        return this._afterClosed.asObservable();
+    }
+
+    get beforeClose(): Observable<any> {
+        return this._beforeClose.asObservable();
+    }
+
+    destroy(): void {
+        this._afterOpen.complete();
+        this._afterClosed.complete();
+        this._beforeClose.complete();
+    }
 }
 
-
-let globalUniqueId = 0;
 
 @Injectable()
 export class Modal {
-    private _opened = false;
-    private _events = new Subject<ModalEvent>();
-    private modalRef: ModalRef = null;
+    private currentRef: ModalRef = null;
+    private overlayAttached = false;
+    private _actions = new Subject<ModalActionName>();
+    private _result: any;
 
-    get opened(): boolean {
-        return this._opened;
+    get actions(): Observable<ModalActionName> {
+        return this._actions.asObservable();
     }
 
-    get events(): Observable<ModalEvent> {
-        return this._events.asObservable();
+    open<R = any>(component: Type<ModalHost>, inputs: any = null): ModalRef<R> {
+        this.currentRef = new ModalRef<R>(new ModalOutlet(component, inputs));
+        this._actions.next('open');
+
+        return this.currentRef;
     }
 
-    open(component: Type<ModalHost>, inputs?: any) {
-        if (this.opened) {
-            this.close();
+    close(result?: any): void {
+        if (!this.currentRef || !this.overlayAttached) {
+            return;
         }
 
-        const resolves = new Observable((observer: Observer<ModalEvent>) => {
-            const events = this._events.subscribe((event: ModalEvent) => {
-                if (!this.modalRef) {
-                    return;
-                }
-
-                if (event.name === ModalEventName.RESOLVE) {
-                    observer.next(event);
-                    observer.complete();
-                }
-
-                if (event.name === ModalEventName.CLOSE) {
-                    observer.next(event);
-                    observer.complete();
-                }
-            });
-
-            return () => {
-                events.unsubscribe();
-            };
-        });
-
-        this.modalRef = {
-            id: `Modal-${globalUniqueId++}`,
-            resolves
-        };
-        this._events.next(new ModalEvent(ModalEventName.OPEN, { component, inputs }));
-        this._opened = true;
-
-        return this.modalRef;
+        this._result = result;
+        this.currentRef._beforeClose.next(this._result);
+        this._actions.next('close');
     }
 
-    close() {
-        this._events.next(new ModalEvent(ModalEventName.CLOSE));
-        this.onCompleteClose();
+    _getCurrentOverlayRef(): ModalRef {
+        return this.currentRef;
     }
 
-    resolve(payload?: any) {
-        this._events.next(new ModalEvent(ModalEventName.RESOLVE, payload));
-        this.onCompleteClose();
+    _overlayAttached(): void {
+        if (!this.currentRef) {
+            return;
+        }
+
+        this.currentRef._afterOpen.next();
+        this.overlayAttached = true;
     }
 
-    private onCompleteClose() {
-        this.modalRef = null;
-        this._opened = false;
+    _overlayDetached(): void {
+        if (!this.currentRef) {
+            return;
+        }
+
+        this.currentRef._afterClosed.next(this._result);
+        this.currentRef.destroy();
+        this.currentRef = null;
+        this.overlayAttached = false;
     }
 }

@@ -4,7 +4,7 @@ import { ArrayMap } from '../../../common/utils/array-map';
 import { NoteEditorSnippet, NoteEditorSnippetEvent, NoteEditorSnippetEventName } from './snippets/snippet';
 import { NoteTextEditorSnippet } from './snippets/text-editor-snippet';
 import { NoteCodeEditorSnippet } from './snippets/code-editor-snippet';
-import { Modal, ModalEventName } from '../../core/modal/modal';
+import { Modal } from '../../core/modal/modal';
 import { NoteCodeEditorSnippetCreateModalComponent } from './code-editor-snippet-create-modal.component';
 import { NoteBody, NoteBodyCodeSnippet, NoteBodySnippet, NoteBodyTextSnippet } from '../models';
 import { Subject } from 'rxjs/Subject';
@@ -98,33 +98,41 @@ export class NoteEditorService {
         }
 
         const refSnippet = this._snippets.get(refSnippetId);
-        let newSnippet;
-
-        if (refSnippet.type === 'text') {
-            this.modal.open(NoteCodeEditorSnippetCreateModalComponent)
-                .resolves.subscribe((event) => {
-
-                if (event.name === ModalEventName.RESOLVE) {
-                    const { fileName, language } = event.payload;
-
-                    newSnippet = this.createCodeSnippetInstance({
-                        type: 'code',
-                        value: '',
-                        fileName,
-                        language
-                    });
-
-                    this.insertSnippet(newSnippet, refSnippetId);
-                } else if (event.name === ModalEventName.CLOSE) {
-                    this.moveFocus(refSnippetId, 0);
-                }
-            });
-        } else if (refSnippet.type === 'code') {
-            newSnippet = this.createTextSnippetInstance({
+        const createNewTextEditorSnippet = () => {
+            const newTextEditorSnippet = this.createTextSnippetInstance({
                 type: 'text',
                 value: ''
             });
-            this.insertSnippet(newSnippet, refSnippetId);
+
+            this.insertSnippet(newTextEditorSnippet, refSnippetId);
+        };
+
+        const createNewCodeEditorSnippet = (fileName: string, language: string) => {
+            const newCodeEditorSnippet = this.createCodeSnippetInstance({
+                type: 'code',
+                value: '',
+                fileName,
+                language
+            });
+
+            this.insertSnippet(newCodeEditorSnippet, refSnippetId);
+        };
+
+        if (refSnippet.type === 'code') {
+            createNewTextEditorSnippet();
+        } else if (refSnippet.type === 'text') {
+            this.modal
+                .open(NoteCodeEditorSnippetCreateModalComponent)
+                .afterClosed
+                .subscribe((payload) => {
+                    if (!payload) {
+                        this.moveFocus(refSnippetId, 0);
+                        return;
+                    }
+
+                    const { fileName, language } = payload;
+                    createNewCodeEditorSnippet(fileName, language);
+                });
         }
     }
 

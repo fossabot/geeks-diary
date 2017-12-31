@@ -1,70 +1,72 @@
-import {
-    Component, ComponentFactoryResolver, ComponentRef,
-    OnDestroy, OnInit, Type, ViewChild, ViewContainerRef
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { ModalHost } from './modal-host';
-import { Modal, ModalEvent, ModalEventName } from './modal';
+import { Component, ComponentFactoryResolver, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { AnimationEvent } from '@angular/animations';
+import { Modal, ModalHost, ModalRef } from './modal';
+import { flyInFromBottomAnimation } from '../../ui/animations';
 
 
 @Component({
     selector: 'core-modal-container',
     templateUrl: './modal-container.component.html',
-    styleUrls: ['./modal-container.component.less']
+    styleUrls: ['./modal-container.component.less'],
+    animations: [flyInFromBottomAnimation]
 })
-export class ModalContainerComponent implements OnInit, OnDestroy {
-    @ViewChild('modalHost', { read: ViewContainerRef }) modalHostView: ViewContainerRef;
+export class ModalContainerComponent {
+    state = 'disable';
     opened = false;
+    @ViewChild('attachmentPlace', { read: ViewContainerRef }) attachmentPlace: ViewContainerRef;
 
-    private modalComponentRef: ComponentRef<ModalHost>;
-    private modalEventSubscription: Subscription;
+    private currentModalRef: ModalRef;
+    currentModalHostComponentRef: ComponentRef<ModalHost>;
 
     constructor(private modal: Modal,
                 private componentFactoryResolver: ComponentFactoryResolver) {
+        this.modal.actions
+            .subscribe((action) => {
+                switch (action) {
+                    case 'open': this.attach(); break;
+                    case 'close': this.detach(); break;
+                }
+            });
     }
 
-    ngOnInit() {
-        this.modalEventSubscription = this.modal.events.subscribe((event) => {
-            this.handleModalEvent(event);
-        });
-    }
+    attach(): void {
+        this.removeComponentRef();
 
-    ngOnDestroy() {
-        if (this.modalEventSubscription) {
-            this.modalEventSubscription.unsubscribe();
-        }
-    }
+        this.currentModalRef = this.modal._getCurrentOverlayRef();
 
-    private handleModalEvent(event: ModalEvent) {
-        switch (event.name) {
-            case ModalEventName.OPEN:
-                this.openModal(event.payload.component, event.payload.inputs);
-                break;
-            case ModalEventName.RESOLVE:
-            case ModalEventName.CLOSE:
-                this.closeModal();
-                break;
-        }
-    }
+        const factory = this.componentFactoryResolver
+            .resolveComponentFactory(this.currentModalRef._outlet.component);
 
-    private openModal(component: Type<ModalHost>, inputs: any = null) {
-        const factory = this.componentFactoryResolver.resolveComponentFactory(component);
-        this.modalComponentRef = this.modalHostView.createComponent(factory);
-
-        const instance = this.modalComponentRef.instance;
-        instance.inputs = inputs;
+        this.currentModalHostComponentRef = this.attachmentPlace.createComponent(factory);
+        this.currentModalHostComponentRef.instance.inputs = this.currentModalRef._outlet.inputs;
 
         this.opened = true;
+        this.state = 'active';
     }
 
-    private closeModal() {
-        if (this.modalComponentRef) {
-            this.modalComponentRef.destroy();
-            this.modalComponentRef = null;
+    detach(): void {
+        this.state = 'disable';
+    }
+
+    onAnimationDone(event: AnimationEvent): void {
+        if (event.toState === 'active') {
+            this.modal._overlayAttached();
         }
 
-        this.modalHostView.clear();
-        this.opened = false;
+        if (event.fromState === 'active'
+            && event.toState === 'disable'
+            && this.opened) {
+            this.opened = false;
+            this.modal._overlayDetached();
+            this.removeComponentRef();
+        }
     }
 
+    private removeComponentRef(): void {
+        if (this.currentModalHostComponentRef) {
+            this.currentModalHostComponentRef.destroy();
+        }
+
+        this.currentModalHostComponentRef = null;
+    }
 }
