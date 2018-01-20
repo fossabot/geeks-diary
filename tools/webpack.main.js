@@ -12,7 +12,9 @@ const config = {
         filename: '[name].js'
     },
     resolve: {
-        extensions: ['.ts', '.js']
+        // '7zip' library needs '.json' file resolve.
+        // They seems to read 'package.json' file.
+        extensions: ['.ts', '.js', '.json']
     },
     module: {
         rules: [

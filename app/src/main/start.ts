@@ -1,6 +1,7 @@
 import { app } from 'electron';
 
 import { appDelegate } from './app-delegate';
+import './dev-extensions';
 
 
 process.on('uncaughtException', (error) => {
